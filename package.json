@@ -1,0 +1,49 @@
+{
+  "author": "gucong3000",
+  "bugs": {
+    "url": "https://github.com/gucong3000/git-win/issues"
+  },
+  "description": "git for window",
+  "devDependencies": {
+    "cover": "^0.2.9",
+    "coveralls": "^2.11.15",
+    "eslint": "^3.11.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mz": "^2.6.0",
+    "node-version-check": "^2.1.1"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/gucong3000/git-win#readme",
+  "keywords": [
+    "git",
+    "window",
+    "path"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "git-win",
+  "os": [
+    "win32"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gucong3000/git-win.git"
+  },
+  "scripts": {
+    "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
+    "lint": "node-version-gte-4 && eslint lib/* || echo \"ESLint not supported\"",
+    "test": "npm run lint && mocha",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
+  },
+  "version": "1.0.0",
+  "dependencies": {
+    "got": "^6.6.3",
+    "mz": "^2.6.0",
+    "os-homedir": "^1.0.2",
+    "os-tmpdir": "^1.0.2",
+    "progress": "^1.1.8"
+  }
+}
