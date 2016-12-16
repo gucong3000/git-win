@@ -3,6 +3,10 @@
   "bugs": {
     "url": "https://github.com/gucong3000/git-win/issues"
   },
+  "dependencies": {
+    "got": "^6.6.3",
+    "os-homedir": "^1.0.2"
+  },
   "description": "git for window",
   "devDependencies": {
     "cover": "^0.2.9",
@@ -34,16 +38,10 @@
   },
   "scripts": {
     "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
-    "lint": "node-version-gte-4 && eslint lib/* || echo \"ESLint not supported\"",
+    "install": "node ./ || node lib/inst",
+    "lint": "node-version-gte-4 && eslint lib/*.js || echo \"ESLint not supported\"",
     "test": "npm run lint && mocha",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
   },
-  "version": "1.0.0",
-  "dependencies": {
-    "got": "^6.6.3",
-    "mz": "^2.6.0",
-    "os-homedir": "^1.0.2",
-    "os-tmpdir": "^1.0.2",
-    "progress": "^1.1.8"
-  }
+  "version": "1.0.0"
 }
