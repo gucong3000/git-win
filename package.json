@@ -5,7 +5,8 @@
   },
   "dependencies": {
     "got": "^6.6.3",
-    "os-homedir": "^1.0.2"
+    "os-homedir": "^1.0.2",
+    "os-tmpdir": "^1.0.2"
   },
   "description": "git for window",
   "devDependencies": {
