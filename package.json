@@ -1,5 +1,9 @@
 {
   "author": "gucong3000",
+  "bin": {
+    "git-inst": "lib/inst.js",
+    "git-which": "index.js"
+  },
   "bugs": {
     "url": "https://github.com/gucong3000/git-win/issues"
   },
@@ -8,11 +12,11 @@
     "os-homedir": "^1.0.2",
     "os-tmpdir": "^1.0.2"
   },
-  "description": "git for window",
+  "description": "Install Git for Windows by npm.",
   "devDependencies": {
     "cover": "^0.2.9",
     "coveralls": "^2.11.15",
-    "eslint": "^3.11.1",
+    "eslint": "^3.12.2",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mz": "^2.6.0",
@@ -39,7 +43,7 @@
   },
   "scripts": {
     "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
-    "install": "node ./ || node lib/inst",
+    "install": "node ./ || node lib/inst.js 2",
     "lint": "node-version-gte-4 && eslint lib/*.js || echo \"ESLint not supported\"",
     "test": "npm run lint && mocha",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"

@@ -4,35 +4,42 @@ git-win
 [![NPM version](https://img.shields.io/npm/v/git-win.svg?style=flat-square)](https://www.npmjs.com/package/git-win)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gucong3000/git-win.svg)](https://ci.appveyor.com/project/gucong3000/git-win)
 
-Use Git Bash as shell on windows
+Install Git for Windows by npm.
 
 ## Why
-- Support [PATHEXT](https://github.com/joyent/node/issues/2318)
-- Support [shebangs](http://pt.wikipedia.org/wiki/Shebang)
-- Support [bash](https://pt.wikipedia.org/wiki/Bash) shell
+- Show path of Git in your disk.
+- Install Git when you have not installed.
+- Silent installation Git.
 
 ## Install
 
 ```bash
-npm install --save git-win
+set GIT_FOR_WINDOWS_MIRROR=https://npm.taobao.org/mirrors/git-for-windows
+npm i --save -g git-win
 ```
 
 ## Usage
 
+### Show path of Git.
+
+```bash
+git-which
+```
+
+Or js API
+
 ```javascript
-require('git-win');
-const spawn = require('child_process').spawn;
-const ls = spawn('cat', ['README.md']);
+var git = require("git-win");
+console.log(git);
+```
 
-ls.stdout.on('data', (data) => {
-	console.log(`stdout: ${data}`);
-});
+### Silent installation Git.
 
-ls.stderr.on('data', (data) => {
-	console.log(`stderr: ${data}`);
-});
+```bash
+git-inst
+```
+Or specify a version number
 
-ls.on('close', (code) => {
-	console.log(`child process exited with code ${code}`);
-});
+```bash
+git-inst 2.11
 ```
