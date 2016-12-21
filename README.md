@@ -14,8 +14,7 @@ Install Git for Windows by npm.
 ## Install
 
 ```bash
-set GIT_FOR_WINDOWS_MIRROR=https://npm.taobao.org/mirrors/git-for-windows
-npm i --save -g git-win
+npm i --save -g git-win --git4win_mirror=https://npm.taobao.org/mirrors/git-for-windows
 ```
 
 ## Usage
