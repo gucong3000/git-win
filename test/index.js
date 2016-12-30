@@ -12,16 +12,16 @@ describe('git download', function() {
 		it('github', function() {
 			this.timeout(0xffffff);
 			process.env.GIT4WIN_MIRROR = 'https://github.com/git-for-windows/git/releases/download/';
-			return require('../lib/download')().then(function() {
-				assert.ok(git);
+			return require('../lib/download')().then(fs.stat).then(function(stats) {
+				assert.ok(stats.isFile());
 			});
 		});
 	} else {
 		it('npm.taobao.org', function() {
 			this.timeout(0xffffff);
 			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
-			return require('../lib/download')('2.10.0').then(function() {
-				assert.ok(git);
+			return require('../lib/download')('2.10.0').then(fs.stat).then(function(stats) {
+				assert.ok(stats.isFile());
 			});
 		});
 	}
