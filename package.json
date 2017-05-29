@@ -8,7 +8,7 @@
     "url": "https://github.com/gucong3000/git-win/issues"
   },
   "dependencies": {
-    "got": "^6.7.1",
+    "got": "^7.0.0",
     "os-homedir": "^1.0.2",
     "os-tmpdir": "^1.0.2"
   },
