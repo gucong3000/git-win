@@ -9,6 +9,7 @@ const cp = require('child_process');
 const path = require('path');
 const osTmpdir = require('os-tmpdir');
 const fs = require('fs-extra');
+const download = require('../lib/download');
 
 describe('git download', () => {
 	beforeEach(() => {
@@ -19,18 +20,36 @@ describe('git download', () => {
 		});
 	});
 	if (process.env.CI) {
-		it('github', function () {
+		it('2.12.2 @ github', function () {
 			this.timeout(0xffffff);
-			process.env.GIT4WIN_MIRROR = 'https://github.com/git-for-windows/git/releases/download/';
-			return require('../lib/download')().then(fs.stat).then((stats) => {
+			return download('2.13.0').then(file => {
+				assert.ok(file.indexOf('\\Git-2.13.0') > 1);
+				return fs.stat(file);
+			}).then((stats) => {
+				assert.ok(stats.isFile());
+			});
+		});
+		it('latest @ github', function () {
+			this.timeout(0xffffff);
+			return download().then(fs.stat).then((stats) => {
 				assert.ok(stats.isFile());
 			});
 		});
 	} else {
-		it('npm.taobao.org', function () {
+		it('2.12.2 @ npm.taobao.org', function () {
 			this.timeout(0xffffff);
 			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
-			return require('../lib/download')('2.14.1').then(fs.stat).then((stats) => {
+			return download('2.13.0').then(file => {
+				assert.ok(file.indexOf('\\Git-2.13.0') > 1);
+				return fs.stat(file);
+			}).then((stats) => {
+				assert.ok(stats.isFile());
+			});
+		});
+		it('latest @ npm.taobao.org', function () {
+			this.timeout(0xffffff);
+			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
+			return download().then(fs.stat).then((stats) => {
 				assert.ok(stats.isFile());
 			});
 		});

@@ -60,7 +60,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 37055144,
-					"download_count": 20300,
+					"download_count": 20879,
 					"created_at": "2017-08-10T19:44:52Z",
 					"updated_at": "2017-08-10T19:46:41Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/Git-2.14.1-32-bit.exe"
@@ -124,7 +124,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 37255040,
-					"download_count": 167681,
+					"download_count": 172499,
 					"created_at": "2017-08-10T19:42:59Z",
 					"updated_at": "2017-08-10T19:44:50Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/Git-2.14.1-64-bit.exe"
@@ -156,7 +156,7 @@
 					"content_type": "application/x-bzip2",
 					"state": "uploaded",
 					"size": 125673780,
-					"download_count": 213,
+					"download_count": 216,
 					"created_at": "2017-08-10T19:53:44Z",
 					"updated_at": "2017-08-10T19:59:54Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/Git-2.14.1-64-bit.tar.bz2"
@@ -188,7 +188,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 19596237,
-					"download_count": 268,
+					"download_count": 285,
 					"created_at": "2017-08-10T19:51:16Z",
 					"updated_at": "2017-08-10T19:52:15Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-32-bit.zip"
@@ -220,7 +220,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 19247974,
-					"download_count": 203,
+					"download_count": 206,
 					"created_at": "2017-08-10T19:50:12Z",
 					"updated_at": "2017-08-10T19:51:15Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-64-bit.zip"
@@ -252,7 +252,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 15438419,
-					"download_count": 78,
+					"download_count": 79,
 					"created_at": "2017-08-10T19:52:51Z",
 					"updated_at": "2017-08-10T19:53:38Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-busybox-32-bit.zip"
@@ -284,7 +284,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 15142035,
-					"download_count": 127,
+					"download_count": 128,
 					"created_at": "2017-08-10T19:52:16Z",
 					"updated_at": "2017-08-10T19:52:50Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/MinGit-2.14.1-busybox-64-bit.zip"
@@ -316,7 +316,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 35477168,
-					"download_count": 1171,
+					"download_count": 1190,
 					"created_at": "2017-08-10T19:48:30Z",
 					"updated_at": "2017-08-10T19:50:11Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/PortableGit-2.14.1-32-bit.7z.exe"
@@ -348,7 +348,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 35433672,
-					"download_count": 4133,
+					"download_count": 4262,
 					"created_at": "2017-08-10T19:46:43Z",
 					"updated_at": "2017-08-10T19:48:28Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.1.windows.1/PortableGit-2.14.1-64-bit.7z.exe"
@@ -418,7 +418,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 20611903,
-					"download_count": 41,
+					"download_count": 42,
 					"created_at": "2017-08-10T16:40:04Z",
 					"updated_at": "2017-08-10T16:41:02Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.3/MinGit-2.13.1.3-32-bit.zip"
@@ -450,7 +450,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 20248961,
-					"download_count": 66,
+					"download_count": 68,
 					"created_at": "2017-08-10T16:41:03Z",
 					"updated_at": "2017-08-10T16:42:24Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.3/MinGit-2.13.1.3-64-bit.zip"
@@ -712,7 +712,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 20329072,
-					"download_count": 32,
+					"download_count": 33,
 					"created_at": "2017-08-10T16:37:09Z",
 					"updated_at": "2017-08-10T16:38:40Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.3/MinGit-2.12.2.3-32-bit.zip"
@@ -744,7 +744,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 19972579,
-					"download_count": 36,
+					"download_count": 37,
 					"created_at": "2017-08-10T16:38:41Z",
 					"updated_at": "2017-08-10T16:39:48Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.3/MinGit-2.12.2.3-64-bit.zip"
@@ -776,7 +776,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 22433920,
-					"download_count": 9,
+					"download_count": 10,
 					"created_at": "2017-08-14T14:41:34Z",
 					"updated_at": "2017-08-14T14:42:22Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.3/MinGit-2.12.2.3-olddeps-32-bit.zip"
@@ -808,7 +808,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 22000510,
-					"download_count": 11,
+					"download_count": 12,
 					"created_at": "2017-08-14T14:42:23Z",
 					"updated_at": "2017-08-14T14:43:09Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.3/MinGit-2.12.2.3-olddeps-64-bit.zip"
@@ -1070,7 +1070,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38594616,
-					"download_count": 21901,
+					"download_count": 21903,
 					"created_at": "2017-08-07T10:42:16Z",
 					"updated_at": "2017-08-07T10:44:02Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/Git-2.14.0.2-32-bit.exe"
@@ -1134,7 +1134,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38837448,
-					"download_count": 174397,
+					"download_count": 174402,
 					"created_at": "2017-08-07T10:40:21Z",
 					"updated_at": "2017-08-07T10:42:14Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/Git-2.14.0.2-64-bit.exe"
@@ -1198,7 +1198,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21717259,
-					"download_count": 167,
+					"download_count": 168,
 					"created_at": "2017-08-07T10:48:48Z",
 					"updated_at": "2017-08-07T10:49:52Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/MinGit-2.14.0.2-32-bit.zip"
@@ -1230,7 +1230,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21378474,
-					"download_count": 290,
+					"download_count": 291,
 					"created_at": "2017-08-07T10:47:50Z",
 					"updated_at": "2017-08-07T10:48:47Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/MinGit-2.14.0.2-64-bit.zip"
@@ -1262,7 +1262,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 17559442,
-					"download_count": 84,
+					"download_count": 85,
 					"created_at": "2017-08-07T10:50:40Z",
 					"updated_at": "2017-08-07T10:51:28Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/MinGit-2.14.0.2-busybox-32-bit.zip"
@@ -1294,7 +1294,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 17272536,
-					"download_count": 132,
+					"download_count": 133,
 					"created_at": "2017-08-07T10:49:53Z",
 					"updated_at": "2017-08-07T10:50:39Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/MinGit-2.14.0.2-busybox-64-bit.zip"
@@ -1326,7 +1326,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36904824,
-					"download_count": 1270,
+					"download_count": 1271,
 					"created_at": "2017-08-07T10:46:00Z",
 					"updated_at": "2017-08-07T10:47:49Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/PortableGit-2.14.0.2-32-bit.7z.exe"
@@ -1358,7 +1358,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36872320,
-					"download_count": 4393,
+					"download_count": 4394,
 					"created_at": "2017-08-07T10:44:04Z",
 					"updated_at": "2017-08-07T10:45:58Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.2/PortableGit-2.14.0.2-64-bit.7z.exe"
@@ -1428,7 +1428,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38592280,
-					"download_count": 16237,
+					"download_count": 16238,
 					"created_at": "2017-08-05T22:41:36Z",
 					"updated_at": "2017-08-05T22:43:03Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/Git-2.14.0-32-bit.exe"
@@ -1492,7 +1492,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38854392,
-					"download_count": 91841,
+					"download_count": 91842,
 					"created_at": "2017-08-05T22:40:09Z",
 					"updated_at": "2017-08-05T22:41:34Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/Git-2.14.0-64-bit.exe"
@@ -1556,7 +1556,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21717116,
-					"download_count": 123,
+					"download_count": 124,
 					"created_at": "2017-08-05T22:46:40Z",
 					"updated_at": "2017-08-05T22:47:30Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/MinGit-2.14.0-32-bit.zip"
@@ -1588,7 +1588,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21378576,
-					"download_count": 137,
+					"download_count": 138,
 					"created_at": "2017-08-05T22:45:52Z",
 					"updated_at": "2017-08-05T22:46:40Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/MinGit-2.14.0-64-bit.zip"
@@ -1620,7 +1620,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 17559302,
-					"download_count": 103,
+					"download_count": 104,
 					"created_at": "2017-08-05T22:48:09Z",
 					"updated_at": "2017-08-05T22:48:50Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/MinGit-2.14.0-busybox-32-bit.zip"
@@ -1652,7 +1652,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 17272639,
-					"download_count": 120,
+					"download_count": 121,
 					"created_at": "2017-08-05T22:47:32Z",
 					"updated_at": "2017-08-05T22:48:08Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/MinGit-2.14.0-busybox-64-bit.zip"
@@ -1716,7 +1716,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36879320,
-					"download_count": 3047,
+					"download_count": 3049,
 					"created_at": "2017-08-05T22:43:05Z",
 					"updated_at": "2017-08-05T22:44:28Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.14.0.windows.1/PortableGit-2.14.0-64-bit.7z.exe"
@@ -1786,7 +1786,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38588096,
-					"download_count": 143652,
+					"download_count": 143654,
 					"created_at": "2017-07-13T12:26:17Z",
 					"updated_at": "2017-07-13T12:28:15Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/Git-2.13.3-32-bit.exe"
@@ -1850,7 +1850,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38835040,
-					"download_count": 1080342,
+					"download_count": 1080344,
 					"created_at": "2017-07-13T12:24:23Z",
 					"updated_at": "2017-07-13T12:26:16Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/Git-2.13.3-64-bit.exe"
@@ -1914,7 +1914,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21816273,
-					"download_count": 558,
+					"download_count": 559,
 					"created_at": "2017-07-13T12:32:48Z",
 					"updated_at": "2017-07-13T12:33:40Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/MinGit-2.13.3-32-bit.zip"
@@ -1946,7 +1946,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21482885,
-					"download_count": 2285,
+					"download_count": 2286,
 					"created_at": "2017-07-13T12:31:50Z",
 					"updated_at": "2017-07-13T12:32:47Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/MinGit-2.13.3-64-bit.zip"
@@ -1978,7 +1978,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36910592,
-					"download_count": 7969,
+					"download_count": 7970,
 					"created_at": "2017-07-13T12:30:01Z",
 					"updated_at": "2017-07-13T12:31:48Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/PortableGit-2.13.3-32-bit.7z.exe"
@@ -2010,7 +2010,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36892784,
-					"download_count": 26019,
+					"download_count": 26020,
 					"created_at": "2017-07-13T12:28:17Z",
 					"updated_at": "2017-07-13T12:29:58Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.3.windows.1/PortableGit-2.13.3-64-bit.7z.exe"
@@ -2080,7 +2080,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38573968,
-					"download_count": 112366,
+					"download_count": 112371,
 					"created_at": "2017-06-26T13:42:58Z",
 					"updated_at": "2017-06-26T13:44:24Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/Git-2.13.2-32-bit.exe"
@@ -2144,7 +2144,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38755408,
-					"download_count": 822747,
+					"download_count": 822748,
 					"created_at": "2017-06-26T13:41:31Z",
 					"updated_at": "2017-06-26T13:42:55Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/Git-2.13.2-64-bit.exe"
@@ -2208,7 +2208,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21892827,
-					"download_count": 570,
+					"download_count": 571,
 					"created_at": "2017-06-26T13:48:15Z",
 					"updated_at": "2017-06-26T13:49:11Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/MinGit-2.13.2-32-bit.zip"
@@ -2240,7 +2240,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21476884,
-					"download_count": 835,
+					"download_count": 836,
 					"created_at": "2017-06-26T13:47:23Z",
 					"updated_at": "2017-06-26T13:48:14Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/MinGit-2.13.2-64-bit.zip"
@@ -2272,7 +2272,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36788928,
-					"download_count": 8685,
+					"download_count": 8686,
 					"created_at": "2017-06-26T13:45:55Z",
 					"updated_at": "2017-06-26T13:47:21Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/PortableGit-2.13.2-32-bit.7z.exe"
@@ -2304,7 +2304,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36722488,
-					"download_count": 18896,
+					"download_count": 18897,
 					"created_at": "2017-06-26T13:44:26Z",
 					"updated_at": "2017-06-26T13:45:52Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.2.windows.1/PortableGit-2.13.2-64-bit.7z.exe"
@@ -2374,7 +2374,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38486808,
-					"download_count": 69303,
+					"download_count": 69304,
 					"created_at": "2017-06-15T16:39:37Z",
 					"updated_at": "2017-06-15T16:41:39Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/Git-2.13.1.2-32-bit.exe"
@@ -2438,7 +2438,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 38670760,
-					"download_count": 483410,
+					"download_count": 483413,
 					"created_at": "2017-06-15T16:37:17Z",
 					"updated_at": "2017-06-15T16:39:33Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/Git-2.13.1.2-64-bit.exe"
@@ -2502,7 +2502,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21838148,
-					"download_count": 576,
+					"download_count": 577,
 					"created_at": "2017-06-15T16:46:59Z",
 					"updated_at": "2017-06-15T16:48:01Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/MinGit-2.13.1.2-32-bit.zip"
@@ -2534,7 +2534,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21423617,
-					"download_count": 2647,
+					"download_count": 2649,
 					"created_at": "2017-06-15T16:45:50Z",
 					"updated_at": "2017-06-15T16:46:58Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/MinGit-2.13.1.2-64-bit.zip"
@@ -2566,7 +2566,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36679352,
-					"download_count": 3687,
+					"download_count": 3688,
 					"created_at": "2017-06-15T16:43:53Z",
 					"updated_at": "2017-06-15T16:45:47Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/PortableGit-2.13.1.2-32-bit.7z.exe"
@@ -2598,7 +2598,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36626360,
-					"download_count": 11985,
+					"download_count": 11986,
 					"created_at": "2017-06-15T16:41:42Z",
 					"updated_at": "2017-06-15T16:43:50Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.2/PortableGit-2.13.1.2-64-bit.7z.exe"
@@ -2796,7 +2796,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21838855,
-					"download_count": 539,
+					"download_count": 540,
 					"created_at": "2017-06-13T11:58:12Z",
 					"updated_at": "2017-06-13T11:59:05Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.1/MinGit-2.13.1-32-bit.zip"
@@ -2828,7 +2828,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21424167,
-					"download_count": 1126,
+					"download_count": 1130,
 					"created_at": "2017-06-13T11:57:18Z",
 					"updated_at": "2017-06-13T11:58:10Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.1/MinGit-2.13.1-64-bit.zip"
@@ -2860,7 +2860,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36671072,
-					"download_count": 1754,
+					"download_count": 1755,
 					"created_at": "2017-06-13T11:55:40Z",
 					"updated_at": "2017-06-13T11:57:16Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.1/PortableGit-2.13.1-32-bit.7z.exe"
@@ -2892,7 +2892,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36649408,
-					"download_count": 3393,
+					"download_count": 3394,
 					"created_at": "2017-06-13T11:54:05Z",
 					"updated_at": "2017-06-13T11:55:38Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.1.windows.1/PortableGit-2.13.1-64-bit.7z.exe"
@@ -2962,7 +2962,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 36973864,
-					"download_count": 224065,
+					"download_count": 224080,
 					"created_at": "2017-05-10T08:35:12Z",
 					"updated_at": "2017-05-10T08:36:53Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/Git-2.13.0-32-bit.exe"
@@ -3026,7 +3026,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 37156256,
-					"download_count": 1642243,
+					"download_count": 1642253,
 					"created_at": "2017-05-10T08:33:35Z",
 					"updated_at": "2017-05-10T08:35:11Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/Git-2.13.0-64-bit.exe"
@@ -3090,7 +3090,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21619181,
-					"download_count": 1241,
+					"download_count": 1242,
 					"created_at": "2017-05-10T08:41:13Z",
 					"updated_at": "2017-05-10T08:42:16Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/MinGit-2.13.0-32-bit.zip"
@@ -3122,7 +3122,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21201331,
-					"download_count": 2116,
+					"download_count": 2117,
 					"created_at": "2017-05-10T08:40:15Z",
 					"updated_at": "2017-05-10T08:41:12Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/MinGit-2.13.0-64-bit.zip"
@@ -3154,7 +3154,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 35417136,
-					"download_count": 12777,
+					"download_count": 12778,
 					"created_at": "2017-05-10T08:38:40Z",
 					"updated_at": "2017-05-10T08:40:13Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/PortableGit-2.13.0-32-bit.7z.exe"
@@ -3186,7 +3186,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 35386504,
-					"download_count": 39544,
+					"download_count": 39545,
 					"created_at": "2017-05-10T08:36:54Z",
 					"updated_at": "2017-05-10T08:38:39Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/PortableGit-2.13.0-64-bit.7z.exe"
@@ -3320,7 +3320,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 37555624,
-					"download_count": 1687707,
+					"download_count": 1687712,
 					"created_at": "2017-04-05T15:51:27Z",
 					"updated_at": "2017-04-05T15:52:49Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.2/Git-2.12.2.2-64-bit.exe"
@@ -3416,7 +3416,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 20963995,
-					"download_count": 512076,
+					"download_count": 512530,
 					"created_at": "2017-04-05T15:56:57Z",
 					"updated_at": "2017-04-05T15:57:43Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.2/MinGit-2.12.2.2-64-bit.zip"
@@ -3710,7 +3710,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 20971855,
-					"download_count": 194492,
+					"download_count": 194653,
 					"created_at": "2017-03-27T19:33:28Z",
 					"updated_at": "2017-03-27T19:34:20Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.1/MinGit-2.12.2-64-bit.zip"
@@ -4036,7 +4036,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34968688,
-					"download_count": 9969,
+					"download_count": 9972,
 					"created_at": "2017-03-21T15:54:22Z",
 					"updated_at": "2017-03-21T15:55:34Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.1.windows.1/PortableGit-2.12.1-32-bit.7z.exe"
@@ -4068,7 +4068,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34921208,
-					"download_count": 22211,
+					"download_count": 22216,
 					"created_at": "2017-03-21T15:52:35Z",
 					"updated_at": "2017-03-21T15:53:48Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.1.windows.1/PortableGit-2.12.1-64-bit.7z.exe"
@@ -4170,7 +4170,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 21948435,
-					"download_count": 47100,
+					"download_count": 47217,
 					"created_at": "2017-03-15T18:25:03Z",
 					"updated_at": "2017-03-15T18:25:51Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.0.windows.2/MinGit-2.12.0.2-64-bit.zip"
@@ -4304,7 +4304,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34827024,
-					"download_count": 1259756,
+					"download_count": 1259824,
 					"created_at": "2017-02-25T16:33:50Z",
 					"updated_at": "2017-02-25T16:35:56Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.12.0.windows.1/Git-2.12.0-64-bit.exe"
@@ -4534,7 +4534,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34675216,
-					"download_count": 106444,
+					"download_count": 106445,
 					"created_at": "2017-02-03T08:50:06Z",
 					"updated_at": "2017-02-03T08:51:10Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.11.1.windows.1/Git-2.11.1-32-bit.exe"
@@ -4662,7 +4662,7 @@
 					"content_type": "application/zip",
 					"state": "uploaded",
 					"size": 23762815,
-					"download_count": 35344,
+					"download_count": 35366,
 					"created_at": "2017-02-03T08:55:45Z",
 					"updated_at": "2017-02-03T08:56:49Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.11.1.windows.1/MinGit-2.11.1-32-bit.zip"
@@ -6144,7 +6144,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34399816,
-					"download_count": 180616,
+					"download_count": 180639,
 					"created_at": "2016-12-01T12:12:27Z",
 					"updated_at": "2016-12-01T12:14:50Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.11.0.windows.1/Git-2.11.0-32-bit.exe"
@@ -6208,7 +6208,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34463528,
-					"download_count": 1697682,
+					"download_count": 1697712,
 					"created_at": "2016-12-01T12:10:31Z",
 					"updated_at": "2016-12-01T12:12:25Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.11.0.windows.1/Git-2.11.0-64-bit.exe"
@@ -7396,7 +7396,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 34348536,
-					"download_count": 1279982,
+					"download_count": 1279985,
 					"created_at": "2016-11-02T18:56:49Z",
 					"updated_at": "2016-11-02T18:59:10Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.10.2.windows.1/Git-2.10.2-64-bit.exe"
@@ -7556,7 +7556,7 @@
 					"content_type": "application/executable",
 					"state": "uploaded",
 					"size": 32194328,
-					"download_count": 24956,
+					"download_count": 24957,
 					"created_at": "2016-11-02T19:01:02Z",
 					"updated_at": "2016-11-02T19:03:13Z",
 					"browser_download_url": "https://github.com/git-for-windows/git/releases/download/v2.10.2.windows.1/PortableGit-2.10.2-64-bit.7z.exe"
