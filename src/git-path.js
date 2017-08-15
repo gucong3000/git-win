@@ -1,4 +1,3 @@
-'use strict';
 const cp = require('child_process');
 const osHomedir = require('os-homedir');
 const path = require('path');

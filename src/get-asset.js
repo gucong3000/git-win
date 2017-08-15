@@ -1,4 +1,3 @@
-'use strict';
 const os = require('os');
 const getRelease = require('./get-release');
 

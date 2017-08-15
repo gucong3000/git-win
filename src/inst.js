@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict';
 const download = require('./download');
 const cp = require('child_process');
 

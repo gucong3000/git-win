@@ -1,4 +1,3 @@
-'use strict';
 const cp = require('child_process');
 const osTmpdir = require('os-tmpdir');
 const path = require('path');

@@ -1,4 +1,3 @@
-'use strict';
 const describe = require('mocha').describe;
 // var before = require('mocha').before;
 // var after = require('mocha').after;
@@ -9,7 +8,7 @@ const cp = require('child_process');
 const path = require('path');
 const osTmpdir = require('os-tmpdir');
 const fs = require('fs-extra');
-const download = require('../lib/download');
+const download = require('../src/download');
 
 describe('git download', () => {
 	beforeEach(() => {
@@ -57,7 +56,7 @@ describe('git download', () => {
 });
 
 describe('git path', () => {
-	const git = require('../');
+	const git = require('../src/');
 	it('git exist', () => {
 		assert.ok(git);
 	});

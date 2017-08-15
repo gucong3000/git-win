@@ -1,4 +1,3 @@
-'use strict';
 // 从github API 提取数据
 
 const path = require('path');
