@@ -1,9 +1,20 @@
+'use strict';
 module.exports = {
+	'parserOptions': {
+		'sourceType': 'script',
+		'ecmaFeatures': {
+			'impliedStrict': false,
+		},
+	},
 	'extends': 'standard',
 	'root': true,
 	'rules': {
-		"prefer-arrow-callback": [
-			"error",
+		'strict': [
+			'error',
+			'safe',
+		],
+		'prefer-arrow-callback': [
+			'error',
 		],
 		'comma-dangle': [
 			'error',

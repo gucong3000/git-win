@@ -1,3 +1,4 @@
+'use strict';
 const describe = require('mocha').describe;
 // var before = require('mocha').before;
 // var after = require('mocha').after;
