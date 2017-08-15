@@ -1,26 +1,33 @@
 {
   "author": "gucong3000",
   "bin": {
-    "git-inst": "./lib/inst.js",
-    "git-which": "./lib/index.js"
+    "git-inst": "lib/inst.js",
+    "git-which": "lib/index.js"
   },
   "bugs": {
     "url": "https://github.com/gucong3000/git-win/issues"
   },
   "dependencies": {
-    "got": "^7.0.0",
+    "fs-extra": "^4.0.1",
+    "get-stream": "^3.0.0",
+    "got": "^7.1.0",
     "os-homedir": "^1.0.2",
     "os-tmpdir": "^1.0.2"
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
     "cover": "^0.2.9",
-    "coveralls": "^2.11.15",
-    "eslint": "^4.0.0",
+    "coveralls": "^2.13.1",
+    "eslint": "^4.4.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
+    "mocha": "^3.5.0",
     "mz": "^2.6.0",
-    "node-version-check": "^2.1.1"
+    "nyc": "^11.1.0"
   },
   "directories": {
     "test": "test"
@@ -34,6 +41,13 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "name": "git-win",
+  "nyc": {
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "cache": true
+  },
   "os": [
     "win32"
   ],
@@ -42,11 +56,10 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "coveralls": "npm run test-cov && coveralls < coverage/lcov.info",
+    "coveralls": "coveralls < coverage/lcov.info",
     "install": "node . || node lib/inst.js",
-    "lint": "node-version-gte-4 && eslint lib/*.js || echo \"ESLint not supported\"",
-    "test": "npm run lint && mocha",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha"
+    "pretest": "eslint \"**/*.js\" --ignore-pattern \"coverage/**/*\"",
+    "test": "nyc mocha --no-timeouts"
   },
-  "version": "1.2.1"
+  "version": "1.3.0"
 }
