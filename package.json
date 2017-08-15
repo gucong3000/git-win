@@ -16,6 +16,8 @@
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
+    "babel-preset-env": "^1.6.0",
+    "babel-register": "^6.24.1",
     "cover": "^0.2.9",
     "coveralls": "^2.13.1",
     "eslint": "^4.4.1",
