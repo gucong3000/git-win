@@ -13,8 +13,8 @@ module.exports = {
 			'error',
 			'safe',
 		],
-		"prefer-arrow-callback": [
-			"error",
+		'prefer-arrow-callback': [
+			'error',
 		],
 		'comma-dangle': [
 			'error',
