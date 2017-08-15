@@ -1,8 +1,7 @@
-'use strict';
 const cp = require('child_process');
 const osHomedir = require('os-homedir');
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs-extra');
 
 const gitPaths = {
 	// by install default

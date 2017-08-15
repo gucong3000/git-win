@@ -1,11 +1,5 @@
 'use strict';
 module.exports = {
-	'parserOptions': {
-		'sourceType': 'script',
-		'ecmaFeatures': {
-			'impliedStrict': false,
-		},
-	},
 	'extends': 'standard',
 	'root': true,
 	'rules': {
