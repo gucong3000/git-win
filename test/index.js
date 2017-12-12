@@ -19,7 +19,7 @@ describe('git download', () => {
 		});
 	});
 	if (process.env.CI) {
-		it('2.12.2 @ github', function () {
+		it('2.13.0 @ github', function () {
 			this.timeout(0xffffff);
 			return download('2.13.0').then(file => {
 				assert.ok(file.indexOf('\\Git-2.13.0') > 1);
@@ -35,7 +35,7 @@ describe('git download', () => {
 			});
 		});
 	} else {
-		it('2.12.2 @ npm.taobao.org', function () {
+		it('2.13.0 @ npm.taobao.org', function () {
 			this.timeout(0xffffff);
 			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
 			return download('2.13.0').then(file => {
