@@ -1,8 +1,8 @@
 {
   "author": "gucong3000",
   "bin": {
-    "git-inst": "lib/inst.js",
-    "git-which": "lib/index.js"
+    "git-inst": "./src/inst.js",
+    "git-which": "./src/index.js"
   },
   "bugs": {
     "url": "https://github.com/gucong3000/git-win/issues"
