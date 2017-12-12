@@ -2,6 +2,9 @@
 module.exports = {
 	'extends': 'standard',
 	'root': true,
+	'parserOptions': {
+		'sourceType': 'script',
+	},
 	'rules': {
 		'strict': [
 			'error',
