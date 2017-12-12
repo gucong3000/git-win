@@ -1,70 +1,84 @@
 'use strict';
 const cp = require('child_process');
-const osHomedir = require('os-homedir');
 const path = require('path');
 const fs = require('fs-extra');
+const reEnvKey = /%(.+?)%/g;
 
-const gitPaths = {
-	// by install default
-	'ProgramFiles': 'Git',
-	// by install x32 under win x64 default
-	'ProgramFiles(x86)': 'Git',
-	// by Cmder
-	'GIT_INSTALL_ROOT': '',
-	// by Cmder
-	'CMDER_ROOT': 'vendor/git-for-windows',
-};
+function envPathResolve (strPath) {
+	return strPath.replace(
+		reEnvKey,
+		(s, envKey) => {
+			if (process.env[envKey]) {
+				s = envPathResolve(process.env[envKey]);
+			} else {
+				throw envKey;
+			}
+			return s;
+		}
+	);
+}
+
+function pathResolve (strPath) {
+	try {
+		return strPath && path.resolve(envPathResolve(strPath));
+	} catch (ex) {
+		//
+	}
+}
 
 /**
  * 猜测git安装目录，在常见的安装地址去查询
  *
  * @returns {String|undefined} git安装目录
  */
-function guessGitPath () {
-	const paths = Object.keys(gitPaths).map((key) => {
-		if (process.env[key]) {
-			return path.join(process.env[key], gitPaths[key]);
-		}
-	}).concat([
+function lookupGitDir () {
+	return [
+		// by install default
+		'%ProgramW6432%/Git',
+		'%ProgramFiles%/Git',
+		// by install x32 under win x64 default
+		'%ProgramFiles(x86)%/Git',
 		// by install default with out Admin
-		'AppData/Local/Programs/Git',
+		'%APPDATA%/Programs/Git',
 		// by SourceTree
-		'AppData/Local/Atlassian/SourceTree/git_local',
-	].map((subdir) => {
-		return path.join(osHomedir(), subdir);
-	})).filter(Boolean);
-
-	let gitInstallPath;
-
-	paths.some((path) => {
-		let stats;
-		try {
-			stats = fs.statSync(path);
-		} catch (ex) {
-			//
+		'%APPDATA%/Atlassian/SourceTree/git_local',
+		// by Cmder
+		'%GIT_INSTALL_ROOT%',
+		// by Cmder
+		'%CMDER_ROOT%/vendor/git-for-windows',
+	].map(
+		pathResolve
+	).find((dir) => {
+		if (dir) {
+			const filePath = path.join(dir, 'cmd/git.exe');
+			try {
+				return fs.statSync(filePath).isFile();
+			} catch (ex) {
+				// console.error(filePath, ex);
+			}
 		}
-		if (stats && stats.isDirectory()) {
-			gitInstallPath = path;
-		}
-		return gitInstallPath;
 	});
-	return gitInstallPath;
 }
 
 /**
  * 在注册表中查询git安装位置
- *
+ * @param platform {String} 64/32 位注册表视图访问的注册表项
  * @returns {String|undefined} git安装目录
  */
-function readRegGitInstallPath () {
-	let output;
-	try {
-		output = cp.spawnSync('REG', ['QUERY', 'HKLM\\SOFTWARE\\GitForWindows', '/v', 'InstallPath']).output;
-	} catch (ex) {
-		//
+function getGitDirByRegstry (platform) {
+	const args = [
+		'QUERY',
+		'HKLM\\SOFTWARE\\GitForWindows',
+		'/v',
+		'InstallPath',
+	];
+
+	if (platform) {
+		args.push('/reg:' + platform);
 	}
 
-	if (output && output[1] && /\bInstallPath\s+\w+\s+(.+?)\r?\n/.test(output[1].toString())) {
+	const regQuery = cp.spawnSync('REG', args);
+	if (!regQuery.status && /^\s*InstallPath\s+REG_[A-Z]+\s+(.+?)$/m.test(regQuery.stdout.toString())) {
 		return RegExp.$1;
 	}
 }
@@ -74,19 +88,31 @@ function readRegGitInstallPath () {
  *
  * @returns {String|undefined} git安装目录
  */
-function whereIsGit () {
-	let output;
-	try {
-		output = cp.spawnSync('where', ['git']).output;
-	} catch (ex) {
-		//
-	}
-
-	if (output && output[1] && /^(.+?)\\cmd\\git.exe$/i.test(output[1].toString().trim())) {
-		return RegExp.$1;
+function getGitDirByPathEnv () {
+	const gitDir = process.env.Path.split(
+		path.delimiter
+	).map(
+		pathResolve
+	).find(dir => {
+		if (dir && /\\cmd\\*$/.test(dir)) {
+			const filePath = path.join(dir, 'git.exe');
+			try {
+				return fs.statSync(filePath).isFile();
+			} catch (ex) {
+				//
+			}
+		}
+	});
+	if (gitDir) {
+		return gitDir.replace(/\\cmd\\*$/, '');
 	}
 }
 
-module.exports = function () {
-	return whereIsGit() || readRegGitInstallPath() || guessGitPath();
+module.exports = {
+	getGitDir: function () {
+		return getGitDirByPathEnv() || getGitDirByRegstry() || getGitDirByRegstry(64) || getGitDirByRegstry(32) || lookupGitDir();
+	},
+	getGitDirByPathEnv,
+	getGitDirByRegstry,
+	lookupGitDir,
 };
