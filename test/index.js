@@ -1,13 +1,20 @@
 'use strict';
 parseInt(process.versions.node) < 9 && require('babel-register');
 
-const assert = require('assert');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const cp = require('child_process');
 const path = require('path');
 const os = require('os');
 const fs = require('fs-extra');
 const download = require('../src/download');
 const proxyquire = require('proxyquire');
+const check = require('../src/check-download');
+
+chai.use(chaiAsPromised);
+
+const expect = chai.expect;
+const assert = chai.assert;
 
 describe('git path', () => {
 	const git = require('../src/');
@@ -46,6 +53,44 @@ describe('get release', () => {
 		return getRelease(2).then(release => {
 			assert.equal(release.id, 8710511);
 		});
+	});
+});
+
+describe('get check download', () => {
+	const file = path.join(os.tmpdir(), 'Git-mock.exe');
+	const contents = 'mock content';
+
+	beforeEach(() => (
+		fs.outputFile(file, contents)
+	));
+	afterEach(() => (
+		fs.unlink(file).catch(() => {})
+	));
+	it('File size too small', async () => {
+		await expect(
+			check(file, 0xFF, 'mock_hash')
+		).to.rejectedWith('unfinished');
+		await expect(
+			fs.stat(file).then(stats => stats.isFile())
+		).eventually.to.be.true;
+	});
+	// Promise.resolve(2 + 2).should.eventually.equal(4);
+	it('File size too large', async () => {
+		await expect(
+			check(file, 1, 'mock_hash')
+		).to.rejectedWith('size');
+		await expect(
+			fs.stat(file)
+		).to.rejectedWith('no such file or directory');
+	});
+
+	it('Bad Hash mismatched', async () => {
+		await expect(
+			check(file, Buffer.byteLength(contents), 'mock_hash')
+		).to.rejectedWith('hash');
+		await expect(
+			fs.stat(file)
+		).to.rejectedWith('no such file or directory');
 	});
 });
 
