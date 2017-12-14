@@ -4,7 +4,7 @@ parseInt(process.versions.node) < 9 && require('babel-register');
 const assert = require('assert');
 const cp = require('child_process');
 const path = require('path');
-const osTmpdir = require('os-tmpdir');
+const os = require('os');
 const fs = require('fs-extra');
 const download = require('../src/download');
 const proxyquire = require('proxyquire');
@@ -53,7 +53,7 @@ describe('git download', () => {
 	beforeEach(() => {
 		delete process.env.GIT4WIN_MIRROR;
 		delete process.env.npm_config_git4win_mirror;
-		cp.spawnSync('del', [path.join(osTmpdir(), 'Git*.exe')], {
+		cp.spawnSync('del', [path.join(os.tmpdir(), 'Git*.exe')], {
 			shell: true,
 		});
 	});
