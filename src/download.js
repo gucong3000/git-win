@@ -40,7 +40,7 @@ async function down (url, dist, asset) {
 		'--output-document',
 		dist,
 	], {
-		stdio: 'inherit',
+		stdio: process.env.CI ? 'ignore' : 'inherit',
 	});
 	return down(url, dist, asset);
 }

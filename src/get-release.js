@@ -4,12 +4,7 @@
 const path = require('path');
 const fs = require('fs-extra');
 const got = require('got');
-let cache;
-try {
-	cache = require('./data-cache.json');
-} catch (ex) {
-	cache = {};
-}
+const cache = require('./data-cache.json');
 
 /**
  * 数据本地缓存增加数据
@@ -18,8 +13,27 @@ try {
  * @param {any} data 任何数据
  */
 async function updateCache (url, data) {
+	data = data.filter((release) => {
+		if (!(release.prerelease || release.draft)) {
+			const sha256 = {};
+			release.body.replace(/^\s*(.+?\.exe)\s*\|\s*(\w+)\s*$/igm, (s, key, value) => {
+				sha256[key] = value;
+			});
+			delete release.body;
+
+			release.assets = release.assets.filter(asset => {
+				if (asset.content_type === 'application/executable' && !/^PortableGit$/i.test(asset.name)) {
+					delete asset.download_count;
+					asset.hash = sha256[asset.name];
+					return true;
+				}
+			});
+			return true;
+		}
+	});
 	cache[url] = data;
 	await fs.writeFile(path.join(__dirname, 'data-cache.json'), JSON.stringify(cache, null, '\t'));
+	return data;
 }
 
 async function getData (url) {
@@ -28,8 +42,7 @@ async function getData (url) {
 		const response = await got(url, {
 			json: true,
 		});
-		await updateCache(url, response.body);
-		return response.body;
+		return updateCache(url, response.body);
 	} catch (ex) {
 		return cache[url];
 	}
@@ -42,9 +55,7 @@ async function getData (url) {
  */
 async function getReleases () {
 	const releases = await getData('https://api.github.com/repos/git-for-windows/git/releases');
-	return releases.filter((release) => {
-		return !(release.prerelease || release.draft);
-	});
+	return releases;
 }
 
 /**

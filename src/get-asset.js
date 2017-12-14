@@ -16,12 +16,6 @@ async function getAssets (version) {
 		return info && info[1] === arch;
 	});
 
-	release.body.replace(/^\s*(.+?)\s*\|\s*(.+?)\s*$/gm, (s, key, value) => {
-		if (asset.name === key) {
-			asset.hash = value;
-		}
-	});
-
 	return asset;
 }
 
