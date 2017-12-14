@@ -57,6 +57,7 @@ describe('git download', () => {
 			});
 		});
 		it('latest @ github', () => {
+			process.env.GIT4WIN_MIRROR = 'https://github.com/git-for-windows/git/releases/download/';
 			return download().then(fs.stat).then((stats) => {
 				assert.ok(stats.isFile());
 			});
