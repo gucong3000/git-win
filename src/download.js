@@ -1,9 +1,10 @@
 'use strict';
 const cp = require('child_process');
-const osTmpdir = require('os-tmpdir');
+const os = require('os');
 const path = require('path');
 const checkDownload = require('./check-download');
 const getAsset = require('./get-asset');
+const tmpPath = path.join.bind(path, os.tmpdir());
 
 /**
  * 下载 Git for windows
@@ -19,7 +20,7 @@ async function download (version) {
 		mirror = mirror.replace(/\/*$/, '/');
 		url = url.replace(/^.+?\/download\//, mirror);
 	}
-	const dist = path.join(osTmpdir(), asset.name);
+	const dist = tmpPath(asset.name);
 	await down(url, dist, asset);
 	return dist;
 }

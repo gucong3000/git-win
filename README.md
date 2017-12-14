@@ -3,6 +3,7 @@ git-win
 
 [![NPM version](https://img.shields.io/npm/v/git-win.svg?style=flat-square)](https://www.npmjs.com/package/git-win)
 [![AppVeyor](https://img.shields.io/appveyor/ci/gucong3000/git-win.svg)](https://ci.appveyor.com/project/gucong3000/git-win)
+[![codecov](https://img.shields.io/codecov/c/github/gucong3000/git-win.svg)](https://codecov.io/gh/gucong3000/git-win)
 
 Install Git for Windows by npm.
 
