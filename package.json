@@ -27,7 +27,8 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.0.1",
-    "nyc": "^11.4.0"
+    "nyc": "^11.4.0",
+    "proxyquire": "^1.8.0"
   },
   "directories": {
     "test": "test"

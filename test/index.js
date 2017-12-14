@@ -7,6 +7,7 @@ const path = require('path');
 const osTmpdir = require('os-tmpdir');
 const fs = require('fs-extra');
 const download = require('../src/download');
+const proxyquire = require('proxyquire');
 
 describe('git path', () => {
 	const git = require('../src/');
@@ -32,6 +33,19 @@ describe('git path', () => {
 
 	it('lookup for git dir', () => {
 		assert.equal(gitPath.lookupGitDir(), git);
+	});
+});
+
+describe('get release', () => {
+	it('use cache when network failure', () => {
+		const getRelease = proxyquire('../src/get-release', {
+			got: () => (
+				Promise.reject(new Error('Network failure'))
+			),
+		});
+		return getRelease(2).then(release => {
+			assert.equal(release.id, 8710511);
+		});
 	});
 });
 
