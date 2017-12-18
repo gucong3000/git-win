@@ -1,5 +1,5 @@
 'use strict';
-const cp = require('child_process');
+const spawn = require('./spawn');
 const os = require('os');
 const path = require('path');
 const checkDownload = require('./check-download');
@@ -32,7 +32,7 @@ async function down (url, dist, asset) {
 	} catch (ex) {
 		//
 	}
-	cp.spawnSync(path.join(__dirname, '../bin/wget.exe'), [
+	await spawn(path.join(__dirname, '../bin/wget.exe'), [
 		'--no-check-certificate',
 		'--tries',
 		'0',
