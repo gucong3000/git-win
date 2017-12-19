@@ -20,6 +20,18 @@ npm i -g git-win --git4win_mirror=https://npm.taobao.org/mirrors/git-for-windows
 
 ## Usage
 
+### Use bash as shell for npm scripts run
+
+```js
+// Edit package.json
+{
+  "scripts": {
+    "precommit": "eslint $(git --no-pager diff --cached --name-only | grep \\.js$)",
+    "...": "..."
+  }
+}
+```
+
 ### Show path of Git.
 
 ```bash

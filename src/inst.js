@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 'use strict';
 const download = require('./download');
-const cp = require('child_process');
+const spawn = require('./spawn');
 
-function inst (version) {
-	return download(version).then((setuppack) => {
-		console.log('Waiting for git installation to complete.');
-		cp.spawnSync(setuppack, [
-			'/VERYSILENT',
-			'/NORESTART',
-			'/NOCANCEL',
-			'/SP-',
-			'/COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"',
-		], {
-			stdio: 'inherit',
-		});
-		console.log('Done.');
+async function inst (version) {
+	const setuppack = await download(version);
+	console.log('Waiting for git installation to complete.');
+	await spawn(setuppack, [
+		'/VERYSILENT',
+		'/NORESTART',
+		'/NOCANCEL',
+		'/SP-',
+		// '/COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"',
+	], {
+		stdio: 'inherit',
 	});
+	console.log('Installation complete.');
 }
 
 if (process.mainModule === module) {

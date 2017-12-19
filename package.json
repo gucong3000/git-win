@@ -58,12 +58,13 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "install": "node . || node lib/inst.js",
+    "install": "node lib/install.js",
+    "uninstall": "npm config --global delete script-shell",
     "build": "rm -rf lib && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
     "pretest": "eslint src test",
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.4.0"
+  "version": "1.5.0"
 }
