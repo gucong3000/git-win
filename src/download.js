@@ -1,9 +1,9 @@
 'use strict';
-const spawn = require('./spawn');
 const os = require('os');
 const path = require('path');
 const checkDownload = require('./check-download');
 const getAsset = require('./get-asset');
+const nugget = (require('util').promisify || require('util.promisify'))(require('nugget'));
 const tmpPath = path.join.bind(path, os.tmpdir());
 
 /**
@@ -32,16 +32,11 @@ async function down (url, dist, asset) {
 	} catch (ex) {
 		//
 	}
-	await spawn(path.join(__dirname, '../bin/wget.exe'), [
-		'--no-check-certificate',
-		'--tries',
-		'0',
-		'--continue',
-		url,
-		'--output-document',
-		dist,
-	], {
-		stdio: process.env.CI ? 'ignore' : 'inherit',
+	await nugget(url, {
+		target: dist,
+		quiet: process.env.CI,
+		resume: true,
+		strictSSL: false,
 	});
 	return down(url, dist, asset);
 }
