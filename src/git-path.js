@@ -110,7 +110,7 @@ function getGitDirByPathEnv () {
 
 module.exports = {
 	getGitDir: function () {
-		return getGitDirByPathEnv() || getGitDirByRegstry() || getGitDirByRegstry(64) || getGitDirByRegstry(32) || lookupGitDir();
+		return getGitDirByRegstry() || getGitDirByRegstry(64) || getGitDirByRegstry(32) || getGitDirByPathEnv() || lookupGitDir();
 	},
 	getGitDirByPathEnv,
 	getGitDirByRegstry,

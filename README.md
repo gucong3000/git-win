@@ -14,48 +14,23 @@ Install Git for Windows by npm.
 
 ## Install
 
+Install `Git for Windows` from mirror
+
 ```bash
 npm i -g git-win --git4win_mirror=https://npm.taobao.org/mirrors/git-for-windows
 ```
 
+Install `Git for Windows` for specify version
+
+```bash
+npm i -g git-win --git-version=2.13
+```
+
 ## Usage
 
-### Use bash as shell for npm scripts run
+Get install path of Git
 
 ```js
-// Edit package.json
-{
-  "scripts": {
-    "precommit": "eslint $(git --no-pager diff --cached --name-only | grep \\.js$)",
-    "...": "..."
-  }
-}
-```
-
-### Show path of Git.
-
-```bash
-git-which
-```
-
-Or js API
-
-```javascript
 var git = require("git-win");
 console.log(git);
-```
-
-### Silent installation Git.
-
-```bash
-git-inst
-```
-Or specify a version number
-
-```bash
-git-inst 2.11
-```
-
-```bash
-git-which
 ```
