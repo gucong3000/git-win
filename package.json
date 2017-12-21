@@ -55,10 +55,9 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "preinstall": "node -e \"require('util').promisify.call\" || npm i util.promisify",
+    "preinstall": "node lib/preinstall.js",
     "install": "node lib/install.js",
-    "uninstall": "npm config --global delete script-shell",
-    "build": "rm -rf lib && babel src --out-dir lib && cp src/*.json lib",
+    "build": "rm -rf lib && babel src --out-dir lib && cp src/*.json src/preinstall.js lib",
     "prepare": "npm run build",
     "pretest": "eslint src test",
     "report-coverage": "codecov",
