@@ -37,6 +37,7 @@
     "window",
     "path"
   ],
+  "preferGlobal": true,
   "license": "MIT",
   "main": "./lib/index.js",
   "name": "git-win",
