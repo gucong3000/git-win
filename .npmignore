@@ -2,6 +2,7 @@
 *.pid
 *.seed
 .editorconfig
+.babelrc
 .eslintrc*
 .gitignore
 .grunt

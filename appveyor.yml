@@ -19,7 +19,7 @@ install:
   - git --version
   #- node -p process.env
   # install modules
-  - npm run preinstall
+  - node src/preinstall.js
   - npm install --ignore-scripts
 
 # to run your custom scripts instead of automatic tests
