@@ -56,13 +56,16 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "preinstall": "node lib/preinstall.js",
+    "preinstall": "node -e \"require('util').promisify.call\" || npm i util.promisify",
     "install": "node lib/install.js",
-    "build": "rm -rf lib && babel src --out-dir lib && cp src/*.json src/preinstall.js lib",
+    "build": "rm -rf lib && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
     "pretest": "eslint src test",
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.5.0"
+  "version": "1.5.0",
+  "optionalDependencies": {
+    "util.promisify": "^1.0.0"
+  }
 }
