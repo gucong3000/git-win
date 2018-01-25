@@ -28,3 +28,4 @@ test_script:
 # to run your custom scripts instead of provider deployments
 after_test:
   - npm run report-coverage
+  - bin\bash.cmd -c "[ ! `git diff --name-only -- src/data-cache.json` ]" || appveyor PushArtifact src\data-cache.json
