@@ -10,3 +10,4 @@ require('./check');
 require('./release');
 require('./download');
 require('./install');
+require('./update-shell');

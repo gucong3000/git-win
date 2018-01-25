@@ -1,6 +1,7 @@
 *.log
 *.pid
 *.seed
+.circleci
 .editorconfig
 .babelrc
 .eslintrc*
@@ -8,6 +9,7 @@
 .grunt
 .lock-wscript
 .node_repl_history
+.nyc_output
 .stylelintrc*
 .travis.yml
 .vscode
