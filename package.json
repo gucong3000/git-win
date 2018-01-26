@@ -1,11 +1,5 @@
 {
   "author": "gucong3000",
-  "bin": {
-    "bash": "bin/bash.cmd",
-    "sh": "bin/sh.cmd",
-    "$SHELL": "bin/bash.cmd",
-    "$BASH": "bin/bash.cmd"
-  },
   "bugs": {
     "url": "https://github.com/gucong3000/git-win/issues"
   },
