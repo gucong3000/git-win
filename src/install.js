@@ -1,5 +1,4 @@
 'use strict';
-const updateShell = require('./update-shell');
 const download = require('./download');
 const gitPath = require('./git-path');
 const spawn = require('./spawn');
@@ -49,8 +48,7 @@ async function installGit (version) {
 module.exports = installGit;
 
 if (process.mainModule === module) {
-	installGit(process.env.npm_config_git_version).then(
-		updateShell,
+	installGit(process.env.npm_config_git_version).catch(
 		error => {
 			console.error(error);
 			process.exitCode = 1;

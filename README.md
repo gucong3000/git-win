@@ -9,7 +9,6 @@ Install Git for Windows by npm.
 
 ## Why
 
-- Set `Git Bash` as cross-platform shell for [npm run scripts](https://docs.npmjs.com/cli/run-script).
 - Show path of Git in your disk.
 - Install Git when you have not installed.
 - Silent installation Git.
@@ -35,14 +34,4 @@ Get install path of Git:
 ```js
 var git = require("git-win");
 console.log(git);
-```
-
-Use cross-platform shell for [npm run scripts](https://docs.npmjs.com/cli/run-script).
-In your package.json file, you can add scripts using `bash` or `sh`:
-
-```json
-"scripts": {
-  "foo": "bash bin/my_script.sh",
-  "bar": "sh -c \"[ ! `git diff` ]\" || echo file(s) changed!"
-}
 ```
