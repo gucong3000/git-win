@@ -18,17 +18,17 @@ describe('git download', () => {
 	});
 
 	if (process.env.CI) {
-		it('2.13.0 @ github', async () => {
-			const file = await download('2.13.0');
+		it('2.13 @ github', async () => {
+			const file = await download('2.13');
 
-			expect(file).to.match(/\\Git-2\.13\.0-\w+-bit\.exe$/);
+			expect(file).to.match(/\\Git-2\.13\.\d+-\w+-bit\.exe$/);
 
 			await expect(
 				fs.stat(file).then(stats => stats.isFile())
 			).eventually.to.be.true;
 
 			await expect(
-				download('2.13.0')
+				download('2.13')
 			).eventually.to.equal(file);
 		});
 		it('latest @ github', async () => {
@@ -42,18 +42,18 @@ describe('git download', () => {
 			).eventually.to.be.true;
 		});
 	} else {
-		it('2.13.0 @ npm.taobao.org', async () => {
+		it('2.13 @ npm.taobao.org', async () => {
 			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
-			const file = await download('2.13.0');
+			const file = await download('2.13');
 
-			expect(file).to.match(/\\Git-2\.13\.0-\w+-bit\.exe$/);
+			expect(file).to.match(/\\Git-2\.13\.\d+-\w+-bit\.exe$/);
 
 			await expect(
 				fs.stat(file).then(stats => stats.isFile())
 			).eventually.to.be.true;
 
 			await expect(
-				download('2.13.0')
+				download('2.13')
 			).eventually.to.equal(file);
 		});
 		it('latest @ npm.taobao.org', async () => {
