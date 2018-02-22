@@ -11,6 +11,6 @@ describe('git release', () => {
 		});
 		await expect(
 			getRelease(2)
-		).eventually.to.have.property('id', 9334485);
+		).eventually.to.have.property('id', 9749756);
 	});
 });
