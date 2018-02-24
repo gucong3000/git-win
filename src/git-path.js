@@ -78,7 +78,7 @@ function getGitDirByRegstry (platform) {
 	}
 
 	const regQuery = cp.spawnSync('REG', args);
-	if (!regQuery.status && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/m.test(regQuery.stdout.toString())) {
+	if (!regQuery.status && regQuery.stdout && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/m.test(regQuery.stdout.toString())) {
 		return RegExp.$1;
 	}
 }
