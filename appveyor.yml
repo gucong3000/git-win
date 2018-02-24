@@ -16,7 +16,6 @@ platform:
 install:
   # install Node.js
   - ps: Install-Product node $env:nodejs_version $env:platform
-  - git --version
   #- node -p process.env
   # install modules
   - npm run preinstall -s

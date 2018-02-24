@@ -1,5 +1,5 @@
 'use strict';
-const os = require('os');
+const osArch = require('./os-arch');
 const getRelease = require('./get-release');
 
 /**
@@ -9,12 +9,10 @@ const getRelease = require('./get-release');
  * @returns {Promise<Object>} 发布信息
  */
 async function getAssets (version) {
-	const arch = os.arch().replace(/^.*?(\d+)$/, '$1');
 	const release = await getRelease(version);
-	const asset = release.assets.find(asset => {
-		const info = asset.name.match(/(\d+)-bit\.exe$/);
-		return info && info[1] === arch;
-	});
+	const asset = release.assets.find(asset => (
+		/(\d+)-bit\.exe$/.test(asset.name) && +RegExp.$1 === osArch
+	));
 
 	return asset;
 }

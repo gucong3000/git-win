@@ -56,7 +56,7 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "preinstall": "node -e \"require('util').promisify.call\" || node -e \"require('util.promisify')\" || npm i util.promisify",
+    "preinstall": "(node -e \"require('util').promisify.call\" || node -e \"require('util.promisify')\") 2>nul || npm i util.promisify",
     "install": "node lib/install.js",
     "build": "rm -rf lib *.tgz && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
@@ -64,5 +64,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.5.2"
+  "version": "1.5.3"
 }

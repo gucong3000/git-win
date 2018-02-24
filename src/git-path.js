@@ -1,5 +1,6 @@
 'use strict';
 const cp = require('child_process');
+const osArch = require('./os-arch');
 const path = require('path');
 const fs = require('fs-extra');
 const reEnvKey = /%(.+?)%/g;
@@ -62,10 +63,10 @@ function lookupGitDir () {
 
 /**
  * 在注册表中查询git安装位置
- * @param platform {String} 64/32 位注册表视图访问的注册表项
+ * @param arch {String} 64/32 位注册表视图访问的注册表项
  * @returns {String|undefined} git安装目录
  */
-function getGitDirByRegstry (platform) {
+function getGitDirByRegstry (arch) {
 	const args = [
 		'QUERY',
 		'HKLM\\SOFTWARE\\GitForWindows',
@@ -73,8 +74,8 @@ function getGitDirByRegstry (platform) {
 		'InstallPath',
 	];
 
-	if (platform) {
-		args.push('/reg:' + platform);
+	if (arch && osArch === 64) {
+		args.push('/reg:' + arch);
 	}
 
 	const regQuery = cp.spawnSync('REG', args);
@@ -110,7 +111,7 @@ function getGitDirByPathEnv () {
 
 module.exports = {
 	getGitDir: function () {
-		return getGitDirByRegstry() || getGitDirByRegstry(64) || getGitDirByRegstry(32) || getGitDirByPathEnv() || lookupGitDir();
+		return getGitDirByRegstry(osArch) || (osArch === 64 && getGitDirByRegstry(32)) || getGitDirByPathEnv() || lookupGitDir();
 	},
 	getGitDirByPathEnv,
 	getGitDirByRegstry,
