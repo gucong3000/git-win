@@ -21,7 +21,7 @@
     "eslint": "^4.18.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-node": "^6.0.0",
+    "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^5.0.1",
@@ -56,7 +56,7 @@
     "url": "git+https://github.com/gucong3000/git-win.git"
   },
   "scripts": {
-    "preinstall": "node -e \"require('util').promisify.call\" || npm i util.promisify",
+    "preinstall": "node -e \"require('util').promisify.call\" || node -e \"require('util.promisify')\" || npm i util.promisify",
     "install": "node lib/install.js",
     "build": "rm -rf lib *.tgz && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
@@ -64,8 +64,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.5.1",
-  "optionalDependencies": {
-    "util.promisify": "^1.0.0"
-  }
+  "version": "1.5.2"
 }
