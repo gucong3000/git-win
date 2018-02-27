@@ -3,6 +3,7 @@ const download = require('./download');
 const gitPath = require('./git-path');
 const spawn = require('./spawn');
 const path = require('path');
+const fs = require('fs-extra');
 
 async function getGitInstallVersion (gitInstallPath) {
 	const stdout = await spawn(
@@ -48,6 +49,7 @@ async function installGit (version) {
 module.exports = installGit;
 
 if (process.mainModule === module) {
+	fs.unlink('nul', () => {});
 	installGit(process.env.npm_config_git_version).catch(
 		error => {
 			console.error(error);

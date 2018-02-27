@@ -78,7 +78,7 @@ function getGitDirByRegstry (arch) {
 		args.push('/reg:' + arch);
 	}
 
-	const regQuery = cp.spawnSync('REG', args);
+	const regQuery = cp.spawnSync('reg.exe', args);
 	if (!regQuery.status && regQuery.stdout && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/m.test(regQuery.stdout.toString())) {
 		return RegExp.$1;
 	}
@@ -90,12 +90,12 @@ function getGitDirByRegstry (arch) {
  * @returns {String|undefined} git安装目录
  */
 function getGitDirByPathEnv () {
-	const gitDir = process.env.Path.split(
+	let gitDir = process.env.PATH.split(
 		path.delimiter
 	).map(
 		pathResolve
 	).find(dir => {
-		if (dir && /\\cmd\\*$/.test(dir)) {
+		if (dir && /([\\/])cmd\1*$/.test(dir)) {
 			const filePath = path.join(dir, 'git.exe');
 			try {
 				return fs.statSync(filePath).isFile();
@@ -105,7 +105,13 @@ function getGitDirByPathEnv () {
 		}
 	});
 	if (gitDir) {
-		return gitDir.replace(/\\cmd\\*$/, '');
+		gitDir = gitDir.replace(/([\\/])cmd\1*$/, '');
+		if (process.platform !== 'win32') {
+			gitDir = gitDir.replace(/^(?:\/\w+)?\/(\w)\/(.*)$/, (s, drive, path) => (
+				drive.toUpperCase() + ':\\' + path.replace(/\//g, '\\')
+			));
+		}
+		return gitDir;
 	}
 }
 

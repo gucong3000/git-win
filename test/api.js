@@ -27,10 +27,11 @@ describe('git path', () => {
 			gitPath.getGitDirByRegstry() || gitPath.getGitDirByRegstry(64) || gitPath.getGitDirByRegstry(32)
 		).to.equal(git);
 	});
-
-	it('lookup for git dir', () => {
-		expect(
-			gitPath.lookupGitDir()
-		).to.equal(git);
-	});
+	if (process.platform === 'win32') {
+		it('lookup for git dir', () => {
+			expect(
+				gitPath.lookupGitDir()
+			).to.equal(git);
+		});
+	}
 });
