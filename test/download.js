@@ -46,7 +46,7 @@ describe('git download', () => {
 			process.env.GIT4WIN_MIRROR = 'https://npm.taobao.org/mirrors/git-for-windows/';
 			const file = await download('2.13');
 
-			expect(file).to.match(/\\Git-2\.13\.\d+-\w+-bit\.exe$/);
+			expect(file).to.match(/[\\/]Git-2\.13\.\d+-\w+-bit\.exe$/);
 
 			await expect(
 				fs.stat(file).then(stats => stats.isFile())
@@ -61,7 +61,7 @@ describe('git download', () => {
 
 			const file = await download();
 
-			expect(file).to.match(/\\Git-(?:\d+\.)+\d-\w+-bit\.exe$/);
+			expect(file).to.match(/[\\/]Git-(?:\d+\.)+\d-\w+-bit\.exe$/);
 
 			await expect(
 				fs.stat(file).then(stats => stats.isFile())

@@ -23,7 +23,6 @@ describe('git check download', () => {
 			fs.stat(file).then(stats => stats.isFile())
 		).eventually.to.be.true;
 	});
-	// Promise.resolve(2 + 2).should.eventually.equal(4);
 	it('File size too large', async () => {
 		await expect(
 			check(file, 1, 'mock_hash')
@@ -33,7 +32,7 @@ describe('git check download', () => {
 		).to.rejectedWith('no such file or directory');
 	});
 
-	it('Bad Hash mismatched', async () => {
+	it('Hash mismatched', async () => {
 		await expect(
 			check(file, Buffer.byteLength(contents), 'mock_hash')
 		).to.rejectedWith('hash');

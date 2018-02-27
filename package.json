@@ -64,5 +64,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.5.3"
+  "version": "1.5.4"
 }
