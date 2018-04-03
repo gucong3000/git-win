@@ -5,6 +5,7 @@ const checkDownload = require('./check-download');
 const getAsset = require('./get-asset');
 const nugget = (require('util').promisify || require('util.promisify'))(require('nugget'));
 const tmpPath = path.join.bind(path, os.tmpdir());
+const inGFW = require('in-gfw');
 
 /**
  * 下载 Git for windows
@@ -15,7 +16,7 @@ const tmpPath = path.join.bind(path, os.tmpdir());
 async function download (version) {
 	const asset = await getAsset(version);
 	let url = asset.browser_download_url;
-	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror;
+	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror || (await inGFW.net('github.com') && 'https://npm.taobao.org/mirrors/git-for-windows/');
 	if (mirror) {
 		mirror = mirror.replace(/\/*$/, '/');
 		url = url.replace(/^.+?\/download\//, mirror);
