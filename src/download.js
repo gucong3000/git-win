@@ -33,6 +33,7 @@ async function down (url, dist, asset) {
 	} catch (ex) {
 		//
 	}
+	console.log('Download from:', url);
 	await nugget(url, {
 		target: dist,
 		quiet: process.env.CI,

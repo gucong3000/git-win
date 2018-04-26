@@ -37,8 +37,9 @@ async function installGit (version) {
 		'/NORESTART',
 		'/NOCANCEL',
 		'/SP-',
-		// '/COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"',
-	], {
+		'/CLOSEAPPLICATIONS',
+		'/RESTARTAPPLICATIONS',
+	].concat(JSON.parse(process.env.npm_config_argv).remain), {
 		stdio: 'inherit',
 	});
 	console.log('Installation complete.');
