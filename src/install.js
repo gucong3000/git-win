@@ -44,7 +44,24 @@ async function installGit (version) {
 	});
 	console.log('Installation complete.');
 
+	await autocrlf().catch(console.error);
 	return installGit(version);
+}
+
+async function autocrlf () {
+	const file = path.join(process.env.ProgramData, 'Git/config');
+	let contents = await fs.readFile(file, 'utf-8');
+	let changed;
+	contents = contents.replace(/(\bautocrlf\s+=\s*)(\S+)/, (s, prefix, value) => {
+		if (/^true$/i.test(value)) {
+			s = prefix + 'input';
+			changed = true;
+		}
+		return s;
+	});
+	if (changed) {
+		await fs.writeFile(file, contents);
+	}
 }
 
 module.exports = installGit;
