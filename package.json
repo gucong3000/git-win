@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^6.0.0",
     "got": "^8.3.0",
     "in-gfw": "^1.0.0",
     "nugget": "^2.0.1"
