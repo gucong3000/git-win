@@ -6,8 +6,8 @@
   "dependencies": {
     "babel-runtime": "^6.26.0",
     "fs-extra": "^6.0.0",
-    "got": "^8.3.0",
-    "in-gfw": "^1.0.0",
+    "got": "^8.3.1",
+    "in-gfw": "^1.1.0",
     "nugget": "^2.0.1"
   },
   "description": "Install Git for Windows by npm.",
@@ -18,7 +18,7 @@
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "codecov": "^3.0.0",
+    "codecov": "^3.0.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.11.0",
@@ -65,5 +65,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.5.7"
+  "version": "1.6.0"
 }
