@@ -1,6 +1,6 @@
-'use strict';
-const osArch = require('./os-arch');
-const getRelease = require('./get-release');
+"use strict";
+const osArch = require("./os-arch");
+const getRelease = require("./get-release");
 
 /**
  * 获取某个版本的git的发布信息

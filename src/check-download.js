@@ -1,7 +1,7 @@
-'use strict';
-const crypto = require('crypto');
-const spawn = require('./spawn');
-const fs = require('fs-extra');
+"use strict";
+const crypto = require("crypto");
+const spawn = require("./spawn");
+const fs = require("fs-extra");
 
 /**
  * 检查本地下载好的文件的尺寸和hash
@@ -15,43 +15,43 @@ const fs = require('fs-extra');
 async function check (file, size, hashCode) {
 	const stats = await fs.stat(file);
 	if (stats.size < size) {
-		throw new Error('unfinished');
+		throw new Error("unfinished");
 	} else if (stats.size > size) {
 		await unlink(file);
-		throw new Error('size');
+		throw new Error("size");
 	} else {
-		console.log('check hash of ' + file);
+		console.log("check hash of " + file);
 		const hash = await getFileHash(file);
 		if (hashCode === hash) {
 			return file;
 		} else {
 			await unlink(file);
-			throw new Error('hash');
+			throw new Error("hash");
 		}
 	}
 }
 
 async function getFileHash (file) {
-	if (process.platform !== 'win32') {
-		const hash = await spawn('sha256sum', [
+	if (process.platform !== "win32") {
+		const hash = await spawn("sha256sum", [
 			file,
 		],
 		{
-			stdio: 'pipe',
+			stdio: "pipe",
 		});
-		return hash.trim().replace(/^(\w+).*/, '$1');
+		return hash.trim().replace(/^(\w+).*/, "$1");
 	}
-	const hash = crypto.createHash('sha256');
+	const hash = crypto.createHash("sha256");
 	const input = fs.createReadStream(file);
 	return new Promise((resolve, reject) => {
-		input.on('readable', () => {
+		input.on("readable", () => {
 			const data = input.read();
 			if (data) {
 				hash.update(data);
 			} else {
-				resolve(hash.digest('hex'));
+				resolve(hash.digest("hex"));
 			}
-		}).once('error', reject);
+		}).once("error", reject);
 	});
 }
 
