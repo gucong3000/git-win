@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 // 从github API 提取数据
 
-const path = require('path');
-const fs = require('fs-extra');
-const got = require('got');
-const cache = require('./data-cache.json');
+const path = require("path");
+const fs = require("fs-extra");
+const got = require("got");
+const cache = require("./data-cache.json");
 
 /**
  * 数据本地缓存增加数据
@@ -22,7 +22,7 @@ async function updateCache (url, data) {
 			delete release.body;
 
 			release.assets = release.assets.filter(asset => {
-				if (asset.content_type === 'application/executable' && !/^PortableGit$/i.test(asset.name)) {
+				if (asset.content_type === "application/executable" && !/^PortableGit$/i.test(asset.name)) {
 					delete asset.download_count;
 					asset.hash = sha256[asset.name];
 					return true;
@@ -32,7 +32,7 @@ async function updateCache (url, data) {
 		}
 	});
 	cache[url] = data;
-	await fs.writeFile(path.join(__dirname, 'data-cache.json'), JSON.stringify(cache, null, '\t'));
+	await fs.writeFile(path.join(__dirname, "data-cache.json"), JSON.stringify(cache, null, "\t"));
 	return data;
 }
 
@@ -54,7 +54,7 @@ async function getData (url) {
  * @returns {Array<Object>} release数组
  */
 async function getReleases () {
-	const releases = await getData('https://api.github.com/repos/git-for-windows/git/releases');
+	const releases = await getData("https://api.github.com/repos/git-for-windows/git/releases");
 	return releases;
 }
 

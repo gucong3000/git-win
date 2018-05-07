@@ -1,11 +1,11 @@
-'use strict';
-const os = require('os');
-const path = require('path');
-const checkDownload = require('./check-download');
-const getAsset = require('./get-asset');
-const nugget = (require('util').promisify || require('util.promisify'))(require('nugget'));
+"use strict";
+const os = require("os");
+const path = require("path");
+const checkDownload = require("./check-download");
+const getAsset = require("./get-asset");
+const nugget = (require("util").promisify || require("util.promisify"))(require("nugget"));
 const tmpPath = path.join.bind(path, os.tmpdir());
-const inGFW = require('in-gfw');
+const inGFW = require("in-gfw");
 
 /**
  * 下载 Git for windows
@@ -16,9 +16,9 @@ const inGFW = require('in-gfw');
 async function download (version) {
 	const asset = await getAsset(version);
 	let url = asset.browser_download_url;
-	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror || (await inGFW.net('github.com') && 'https://npm.taobao.org/mirrors/git-for-windows/');
+	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror || (await inGFW.net("github.com") && "https://npm.taobao.org/mirrors/git-for-windows/");
 	if (mirror) {
-		mirror = mirror.replace(/\/*$/, '/');
+		mirror = mirror.replace(/\/*$/, "/");
 		url = url.replace(/^.+?\/download\//, mirror);
 	}
 	const dist = tmpPath(asset.name);
@@ -33,7 +33,7 @@ async function down (url, dist, asset) {
 	} catch (ex) {
 		//
 	}
-	console.log('Download from:', url);
+	console.log("Download from:", url);
 	await nugget(url, {
 		target: dist,
 		quiet: process.env.CI,

@@ -1,13 +1,13 @@
-'use strict';
-const expect = require('chai').expect;
-const check = require('../src/check-download');
-const fs = require('fs-extra');
-const path = require('path');
-const os = require('os');
+"use strict";
+const expect = require("chai").expect;
+const check = require("../src/check-download");
+const fs = require("fs-extra");
+const path = require("path");
+const os = require("os");
 
-describe('git check download', () => {
-	const file = path.join(os.tmpdir(), 'Git-mock.exe');
-	const contents = 'mock content';
+describe("git check download", () => {
+	const file = path.join(os.tmpdir(), "Git-mock.exe");
+	const contents = "mock content";
 
 	beforeEach(() => (
 		fs.outputFile(file, contents)
@@ -15,29 +15,29 @@ describe('git check download', () => {
 	afterEach(() => (
 		fs.unlink(file).catch(() => {})
 	));
-	it('File size too small', async () => {
+	it("File size too small", async () => {
 		await expect(
-			check(file, 0xFF, 'mock_hash')
-		).to.rejectedWith('unfinished');
+			check(file, 0xFF, "mock_hash")
+		).to.rejectedWith("unfinished");
 		await expect(
 			fs.stat(file).then(stats => stats.isFile())
 		).eventually.to.be.true;
 	});
-	it('File size too large', async () => {
+	it("File size too large", async () => {
 		await expect(
-			check(file, 1, 'mock_hash')
-		).to.rejectedWith('size');
+			check(file, 1, "mock_hash")
+		).to.rejectedWith("size");
 		await expect(
 			fs.stat(file)
-		).to.rejectedWith('no such file or directory');
+		).to.rejectedWith("no such file or directory");
 	});
 
-	it('Hash mismatched', async () => {
+	it("Hash mismatched", async () => {
 		await expect(
-			check(file, Buffer.byteLength(contents), 'mock_hash')
-		).to.rejectedWith('hash');
+			check(file, Buffer.byteLength(contents), "mock_hash")
+		).to.rejectedWith("hash");
 		await expect(
 			fs.stat(file)
-		).to.rejectedWith('no such file or directory');
+		).to.rejectedWith("no such file or directory");
 	});
 });

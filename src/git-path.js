@@ -1,8 +1,8 @@
-'use strict';
-const cp = require('child_process');
-const osArch = require('./os-arch');
-const path = require('path');
-const fs = require('fs-extra');
+"use strict";
+const cp = require("child_process");
+const osArch = require("./os-arch");
+const path = require("path");
+const fs = require("fs-extra");
 const reEnvKey = /%(.+?)%/g;
 
 function envPathResolve (strPath) {
@@ -35,23 +35,23 @@ function pathResolve (strPath) {
 function lookupGitDir () {
 	return [
 		// by install default
-		'%ProgramW6432%/Git',
-		'%ProgramFiles%/Git',
+		"%ProgramW6432%/Git",
+		"%ProgramFiles%/Git",
 		// by install x32 under win x64 default
-		'%ProgramFiles(x86)%/Git',
+		"%ProgramFiles(x86)%/Git",
 		// by install default with out Admin
-		'%APPDATA%/Programs/Git',
+		"%APPDATA%/Programs/Git",
 		// by SourceTree
-		'%APPDATA%/Atlassian/SourceTree/git_local',
+		"%APPDATA%/Atlassian/SourceTree/git_local",
 		// by Cmder
-		'%GIT_INSTALL_ROOT%',
+		"%GIT_INSTALL_ROOT%",
 		// by Cmder
-		'%CMDER_ROOT%/vendor/git-for-windows',
+		"%CMDER_ROOT%/vendor/git-for-windows",
 	].map(
 		pathResolve
 	).find((dir) => {
 		if (dir) {
-			const filePath = path.join(dir, 'cmd/git.exe');
+			const filePath = path.join(dir, "cmd/git.exe");
 			try {
 				return fs.statSync(filePath).isFile();
 			} catch (ex) {
@@ -68,17 +68,17 @@ function lookupGitDir () {
  */
 function getGitDirByRegstry (arch) {
 	const args = [
-		'QUERY',
-		'HKLM\\SOFTWARE\\GitForWindows',
-		'/v',
-		'InstallPath',
+		"QUERY",
+		"HKLM\\SOFTWARE\\GitForWindows",
+		"/v",
+		"InstallPath",
 	];
 
 	if (arch && osArch === 64) {
-		args.push('/reg:' + arch);
+		args.push("/reg:" + arch);
 	}
 
-	const regQuery = cp.spawnSync('reg.exe', args);
+	const regQuery = cp.spawnSync("reg.exe", args);
 	if (!regQuery.status && regQuery.stdout && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/im.test(regQuery.stdout.toString())) {
 		return RegExp.$1;
 	}
@@ -96,7 +96,7 @@ function getGitDirByPathEnv () {
 		pathResolve
 	).find(dir => {
 		if (dir && /([\\/])cmd\1*$/.test(dir)) {
-			const filePath = path.join(dir, 'git.exe');
+			const filePath = path.join(dir, "git.exe");
 			try {
 				return fs.statSync(filePath).isFile();
 			} catch (ex) {
@@ -105,10 +105,10 @@ function getGitDirByPathEnv () {
 		}
 	});
 	if (gitDir) {
-		gitDir = gitDir.replace(/([\\/])cmd\1*$/, '');
-		if (process.platform !== 'win32') {
+		gitDir = gitDir.replace(/([\\/])cmd\1*$/, "");
+		if (process.platform !== "win32") {
 			gitDir = gitDir.replace(/^(?:\/\w+)?\/(\w)\/(.*)$/, (s, drive, path) => (
-				drive.toUpperCase() + ':\\' + path.replace(/\//g, '\\')
+				drive.toUpperCase() + ":\\" + path.replace(/\//g, "\\")
 			));
 		}
 		return gitDir;
