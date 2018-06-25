@@ -18,17 +18,17 @@ describe("git download", () => {
 		}
 	});
 
-	it("2.14", async () => {
-		const file = await download("2.14");
+	it("2.17", async () => {
+		const file = await download("2.17");
 
-		expect(file).to.match(/\\Git-2\.14\.\d+-\w+-bit\.exe$/);
+		expect(file).to.match(/\\Git-2\.17(?:\.\d+)*-\w+-bit\.exe$/);
 
 		await expect(
 			fs.stat(file).then(stats => stats.isFile())
 		).eventually.to.be.true;
 
 		await expect(
-			download("2.14")
+			download("2.17")
 		).eventually.to.equal(file);
 	});
 	it("latest", async () => {
