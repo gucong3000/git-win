@@ -5,27 +5,27 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
-    "fs-extra": "^6.0.0",
+    "fs-extra": "^6.0.1",
     "got": "^8.3.1",
-    "in-gfw": "^1.1.0",
+    "in-gfw": "^1.1.2",
     "nugget": "^2.0.1"
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "codecov": "^3.0.1",
-    "eslint": "^4.19.1",
+    "codecov": "^3.0.2",
+    "eslint": "^5.0.0",
     "eslint-config-standard": "^11.0.0",
-    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
-    "mocha": "^5.1.1",
+    "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "proxyquire": "^2.0.1"
   },
@@ -65,5 +65,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "1.6.1"
+  "version": "1.6.2"
 }

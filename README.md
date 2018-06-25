@@ -25,7 +25,7 @@ npm i -g git-win --git4win_mirror=https://npm.taobao.org/mirrors/git-for-windows
 Install `Git for Windows` for specify version whith [flags to use by calling the installer](https://github.com/git-for-windows/git/wiki/Silent-or-Unattended-Installation)
 
 ```bash
-npm i -g git-win --git-version=2.17 -- /COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"
+npm i -g git-win --git-version=2.18 -- /COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"
 ```
 
 ## Usage
