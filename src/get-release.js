@@ -4,7 +4,12 @@
 const path = require("path");
 const fs = require("fs-extra");
 const got = require("got");
-const cache = require("./data-cache.json");
+let cache;
+try {
+	cache = require("./data-cache.json");
+} catch (ex) {
+	cache = [];
+}
 
 /**
  * 数据本地缓存增加数据
@@ -12,28 +17,35 @@ const cache = require("./data-cache.json");
  * @param {String} url 数据来源url
  * @param {any} data 任何数据
  */
-async function updateCache (url, data) {
+async function updateCache (data) {
+	cache = cache.filter(
+		(oldRelease) => (
+			!data.some(newRelease => newRelease.id === oldRelease.id)
+		)
+	);
 	data = data.filter((release) => {
-		if (!(release.prerelease || release.draft)) {
-			const sha256 = {};
-			release.body.replace(/^\s*(.+?\.exe)\s*\|\s*(\w+)\s*$/igm, (s, key, value) => {
-				sha256[key] = value;
-			});
-			delete release.body;
-
-			release.assets = release.assets.filter(asset => {
-				if (asset.content_type === "application/executable" && !/^PortableGit$/i.test(asset.name)) {
-					delete asset.download_count;
-					asset.hash = sha256[asset.name];
-					return true;
-				}
-			});
-			return true;
+		if ((release.prerelease || release.draft)) {
+			return false;
 		}
+		const sha256 = {};
+		release.body.replace(/^\s*(.+?\.exe)\s*\|\s*(\w+)\s*$/igm, (s, key, value) => {
+			sha256[key] = value;
+		});
+		delete release.body;
+
+		release.assets = release.assets.filter(asset => {
+			if (asset.content_type === "application/executable" && !/^PortableGit$/i.test(asset.name)) {
+				delete asset.download_count;
+				asset.hash = sha256[asset.name];
+				return true;
+			}
+		});
+		return true;
 	});
-	cache[url] = data;
+
+	cache = data.concat(cache);
 	await fs.writeFile(path.join(__dirname, "data-cache.json"), JSON.stringify(cache, null, "\t"));
-	return data;
+	return cache;
 }
 
 async function getData (url) {
@@ -42,9 +54,9 @@ async function getData (url) {
 		const response = await got(url, {
 			json: true,
 		});
-		return updateCache(url, response.body);
+		return updateCache(response.body);
 	} catch (ex) {
-		return cache[url];
+		return cache;
 	}
 }
 

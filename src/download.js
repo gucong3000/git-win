@@ -16,7 +16,7 @@ const inGFW = require("in-gfw");
 async function download (version) {
 	const asset = await getAsset(version);
 	let url = asset.browser_download_url;
-	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror || (await inGFW.net("github.com") && "https://npm.taobao.org/mirrors/git-for-windows/");
+	let mirror = process.env.GIT4WIN_MIRROR || process.env.npm_config_git4win_mirror || (await inGFW.net("github.com", "npm.taobao.org") && "https://npm.taobao.org/mirrors/git-for-windows/");
 	if (mirror) {
 		mirror = mirror.replace(/\/*$/, "/");
 		url = url.replace(/^.+?\/download\//, mirror);
