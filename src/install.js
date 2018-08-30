@@ -31,15 +31,21 @@ async function installGit (version) {
 	}
 
 	const setuppack = await download(version);
-	console.log("Waiting for git installation to complete.");
-	await spawn(setuppack, [
+	const args = [
 		"/VERYSILENT",
 		"/NORESTART",
 		"/NOCANCEL",
 		"/SP-",
 		"/CLOSEAPPLICATIONS",
 		"/RESTARTAPPLICATIONS",
-	].concat(JSON.parse(process.env.npm_config_argv).remain), {
+	];
+	const remain = process.env.npm_config_argv && JSON.parse(process.env.npm_config_argv).remain;
+	if (remain && remain.length) {
+		args.push(...remain);
+	}
+	console.log(`${setuppack} ${args.join(" ")}\nWaiting for git installation to complete.`);
+
+	await spawn(setuppack, args, {
 		stdio: "inherit",
 	});
 	console.log("Installation complete.");
