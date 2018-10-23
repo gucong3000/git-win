@@ -4,6 +4,39 @@ const osArch = require("./os-arch");
 const path = require("path");
 const fs = require("fs-extra");
 const reEnvKey = /%(.+?)%/g;
+const mingwVal = {};
+const hasFileCache = {};
+const regExe = process.platform === "win32" ? path.win32.join(process.env.SystemRoot || process.env.windir || "C:/Windows", "System32/reg.exe") : "reg.exe";
+
+/**
+ * Query Git install dir from registry
+ * @param arch {String} 64/32 architecture
+ * @returns {String|undefined} Git install dir
+ */
+function getGitDirByRegstry (arch) {
+	const args = [
+		"QUERY",
+		"HKLM\\SOFTWARE\\GitForWindows",
+	];
+
+	if (arch && osArch === "64") {
+		args.push("/reg:" + arch);
+	}
+
+	const regQuery = cp.spawnSync(regExe, args, {
+		encoding: "utf8",
+	});
+	if (regQuery.stdout && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/im.test(regQuery.stdout)) {
+		let gitDir = RegExp.$1;
+		const reMingw = new RegExp(`\\s+${gitDir.replace(/(\W)/g, "\\$1")}\\\\(mingw\\d+)(?:\\\\|$)`, "im");
+		gitDir = pathResolve(gitDir);
+		if (reMingw.test(regQuery.stdout)) {
+			mingwVal[gitDir.toLowerCase()] = RegExp.$1;
+		};
+
+		return gitDir;
+	}
+}
 
 function envPathResolve (strPath) {
 	return strPath.replace(
@@ -19,107 +52,123 @@ function envPathResolve (strPath) {
 	);
 }
 
+function findGitDir (dirs) {
+	const result = [];
+	const has = {};
+	dirs.forEach((dir) => {
+		if (!dir) {
+			return;
+		}
+		try {
+			dir = envPathResolve(dir);
+		} catch (ex) {
+			return;
+		}
+
+		dir = pathResolve(dir);
+
+		const key = dir.toLowerCase();
+		if (has[key]) {
+			return;
+		}
+		result.push(dir);
+		has[key] = true;
+	});
+	return result.find((dir) => (
+		hasFile(dir, "cmd/git.exe")
+	));
+}
+
 function pathResolve (strPath) {
-	try {
-		return strPath && path.resolve(envPathResolve(strPath));
-	} catch (ex) {
-		//
+	const mntPath = /^([a-z]):+/i.exec(strPath) || /^\/(?:.+?\/)?([a-z]):*(?=\/|$)/i.exec(strPath);
+	if (mntPath) {
+		strPath = mntPath[1].toUpperCase() + ":" + strPath.slice(mntPath[0].length);
 	}
+	return path.win32.resolve(strPath);
 }
 
 /**
- * 猜测git安装目录，在常见的安装地址去查询
+ * Guessing git install dir
  *
- * @returns {String|undefined} git安装目录
+ * @returns {String|undefined} Git install dir
  */
-function lookupGitDir () {
-	return [
-		// by install default
-		"%ProgramW6432%/Git",
-		"%ProgramFiles%/Git",
-		// by install x32 under win x64 default
-		"%ProgramFiles(x86)%/Git",
-		// by install default with out Admin
-		"%APPDATA%/Programs/Git",
-		// by SourceTree
-		"%APPDATA%/Atlassian/SourceTree/git_local",
-		// by Cmder
-		"%GIT_INSTALL_ROOT%",
-		// by Cmder
-		"%CMDER_ROOT%/vendor/git-for-windows",
-	].map(
-		pathResolve
-	).find((dir) => {
-		if (dir) {
-			const filePath = path.join(dir, "cmd/git.exe");
-			try {
-				return fs.statSync(filePath).isFile();
-			} catch (ex) {
-				// console.error(filePath, ex);
-			}
-		}
-	});
+function lookupGitDir (dirs = [
+	// by install default
+	"%ProgramW6432%/Git",
+	"%ProgramFiles%/Git",
+	// by install x32 under win x64 default
+	"%ProgramFiles(x86)%/Git",
+	// by install default with out Admin
+	"%APPDATA%/Programs/Git",
+	// by SourceTree
+	"%APPDATA%/Atlassian/SourceTree/git_local",
+	// by Cmder
+	"%GIT_INSTALL_ROOT%",
+	// by Cmder
+	"%CMDER_ROOT%/vendor/git-for-windows",
+]) {
+	return findGitDir(dirs);
 }
 
 /**
- * 在注册表中查询git安装位置
- * @param arch {String} 64/32 位注册表视图访问的注册表项
- * @returns {String|undefined} git安装目录
- */
-function getGitDirByRegstry (arch) {
-	const args = [
-		"QUERY",
-		"HKLM\\SOFTWARE\\GitForWindows",
-		"/v",
-		"InstallPath",
-	];
-
-	if (arch && osArch === "64") {
-		args.push("/reg:" + arch);
-	}
-
-	const regQuery = cp.spawnSync("reg.exe", args);
-	if (!regQuery.status && regQuery.stdout && /^\s*InstallPath\s+REG(?:_[A-Z]+)+\s+(.+?)$/im.test(regQuery.stdout.toString())) {
-		return RegExp.$1;
-	}
-}
-
-/**
- * 使用where命令查找git安装文件夹
+ * Fild Git install dir by PATH env
  *
- * @returns {String|undefined} git安装目录
+ * @returns {String|undefined} Git install dir
  */
-function getGitDirByPathEnv () {
-	let gitDir = process.env.PATH.split(
+function getGitDirByPathEnv (PATH = process.env.PATH) {
+	const dirs = PATH.split(
 		path.delimiter
-	).map(
-		pathResolve
-	).find(dir => {
-		if (dir && /([\\/])cmd\1*$/.test(dir)) {
-			const filePath = path.join(dir, "git.exe");
-			try {
-				return fs.statSync(filePath).isFile();
-			} catch (ex) {
-				//
-			}
+	).map(dir => (
+		dir && (/^(.*[\\/]Git)(?=[\\/]|$)/i.test(dir) || /^(.+?)[\\/]+(?:cmd|(?:usr|mingw\d+)[\\/]+bin)(?=[\\/]|$)/i.test(dir)) && RegExp.$1
+	));
+	return findGitDir(dirs);
+}
+
+function getGitDir () {
+	return getGitDirByRegstry(osArch) || (osArch === "64" && getGitDirByRegstry("32")) || getGitDirByPathEnv() || lookupGitDir();
+}
+
+function hasFile (...args) {
+	const filePath = path.win32.resolve(...args);
+	if (!(filePath in hasFileCache)) {
+		try {
+			hasFileCache[filePath] = fs.statSync(filePath).isFile() && filePath;
+		} catch (ex) {
+			hasFileCache[filePath] = false;
 		}
-	});
-	if (gitDir) {
-		gitDir = gitDir.replace(/([\\/])cmd\1*$/, "");
-		if (process.platform !== "win32") {
-			gitDir = gitDir.replace(/^(?:\/\w+)?\/(\w)\/(.*)$/, (s, drive, path) => (
-				drive.toUpperCase() + ":\\" + path.replace(/\//g, "\\")
-			));
-		}
-		return gitDir;
 	}
+
+	return hasFileCache[filePath];
+}
+
+/**
+ * Get architecture of Git
+ *
+ * @param gitDir {String?} 64/32 Git install dir
+ * @returns {String|undefined} architecture
+ */
+function getMingwDir (gitDir) {
+	const key = gitDir.toLowerCase();
+	if (key in mingwVal) {
+		return mingwVal[key];
+	}
+	let result = [
+		"64",
+		"32",
+	].filter(arch => arch !== osArch);
+	result.unshift(osArch);
+	result = result.map(arch => "mingw" + arch);
+	result = result.find(mingwDir => {
+		return hasFile(gitDir, mingwDir + "/bin/git.exe");
+	});
+	mingwVal[key] = result;
+	return result;
 }
 
 module.exports = {
-	getGitDir: function () {
-		return getGitDirByRegstry(osArch) || (osArch === "64" && getGitDirByRegstry("32")) || getGitDirByPathEnv() || lookupGitDir();
-	},
+	getGitDir,
 	getGitDirByPathEnv,
 	getGitDirByRegstry,
 	lookupGitDir,
+	getMingwDir,
 };
