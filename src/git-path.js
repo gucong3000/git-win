@@ -74,7 +74,7 @@ function getGitDirByRegstry (arch) {
 		"InstallPath",
 	];
 
-	if (arch && osArch === 64) {
+	if (arch && osArch === "64") {
 		args.push("/reg:" + arch);
 	}
 
@@ -117,7 +117,7 @@ function getGitDirByPathEnv () {
 
 module.exports = {
 	getGitDir: function () {
-		return getGitDirByRegstry(osArch) || (osArch === 64 && getGitDirByRegstry(32)) || getGitDirByPathEnv() || lookupGitDir();
+		return getGitDirByRegstry(osArch) || (osArch === "64" && getGitDirByRegstry("32")) || getGitDirByPathEnv() || lookupGitDir();
 	},
 	getGitDirByPathEnv,
 	getGitDirByRegstry,

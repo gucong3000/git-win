@@ -11,7 +11,7 @@ const getRelease = require("./get-release");
 async function getAssets (version) {
 	const release = await getRelease(version);
 	const asset = release.assets.find(asset => (
-		/(\d+)-bit\.exe$/.test(asset.name) && +RegExp.$1 === osArch
+		/(\d+)-bit\.exe$/.test(asset.name) && RegExp.$1 === osArch
 	));
 
 	return asset;
