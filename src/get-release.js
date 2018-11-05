@@ -44,7 +44,7 @@ async function updateCache (data) {
 	});
 
 	cache = data.concat(cache);
-	await fs.writeFile(path.join(__dirname, "data-cache.json"), JSON.stringify(cache, null, "\t"));
+	await fs.writeFile(path.join(__dirname, "data-cache.json"), JSON.stringify(cache, null, "\t") + "\n");
 	return cache;
 }
 
