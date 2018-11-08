@@ -23,3 +23,6 @@ indent_style = space
 
 [lib/*.json]
 insert_final_newline = false
+
+[*.md]
+tab_width = 8
