@@ -6,15 +6,22 @@ const os = require("os");
 const gitPath = require("../src/git-path");
 const gitWin = require("../src/");
 
+function fsStat (path) {
+	if (process.platform !== "win32") {
+		path = path.replace(/[\\/]+/g, "/").replace(/^\w+:/, s => "/mnt/" + s[0].toLowerCase());
+	}
+	return fs.stat(path);
+}
+
 describe("git path", () => {
 	it("get git dir", async () => {
 		expect(gitWin.root).to.be.a("string");
 		expect(path.win32.resolve(gitWin.root)).to.equal(gitWin.root);
 		// expect(gitWin.root).to.equal(undefined);
-		expect((await fs.stat(gitWin.root)).isDirectory()).to.equal(true);
+		expect((await fsStat(gitWin.root)).isDirectory()).to.equal(true);
+		expect((await fsStat(path.join(gitWin.root, gitWin.mingw))).isDirectory()).to.equal(true);
 		expect(gitWin.mingw).to.be.a("string");
 		expect(gitWin.mingw).to.match(/^mingw(32|64)$/);
-		expect((await fs.stat(path.win32.join(gitWin.root, gitWin.mingw))).isDirectory()).to.equal(true);
 	});
 
 	describe("get git dir by `PATH` env", () => {
@@ -65,6 +72,12 @@ describe("git path", () => {
 		if (process.platform === "win32") {
 			expect(
 				gitPath.lookupGitDir()
+			).to.equal(gitWin.root);
+		} else {
+			expect(
+				gitPath.lookupGitDir([
+					"C:\\Program Files\\Git",
+				])
 			).to.equal(gitWin.root);
 		}
 		expect(
@@ -131,7 +144,7 @@ describe("resolve path", () => {
 		).to.equal(path.win32.join(gitWin.root, "/usr/bin/dash"));
 	});
 
-	it("gitWin.toPosix (\"/bin/dash\")", () => {
+	it("gitWin.toPosix(\"/bin/dash\")", () => {
 		expect(
 			gitWin.toPosix("/bin/dash")
 		).to.equal("/bin/dash");
@@ -139,11 +152,23 @@ describe("resolve path", () => {
 
 	it("gitWin.resolve(\"/c\")", () => {
 		expect(
-			gitWin.toWin32("/c")
+			gitWin.resolve("/c")
 		).to.equal("C:\\");
 	});
 
 	it("gitWin.resolve(\"c:\")", () => {
+		expect(
+			gitWin.resolve("c:")
+		).to.equal("C:\\");
+	});
+
+	it("gitWin.toWin32(\"/c\")", () => {
+		expect(
+			gitWin.toWin32("/c")
+		).to.equal("C:\\");
+	});
+
+	it("gitWin.toWin32(\"c:\")", () => {
 		expect(
 			gitWin.toWin32("c:")
 		).to.equal("C:\\");
@@ -153,11 +178,17 @@ describe("resolve path", () => {
 		expect(gitWin.resolve("c:\\")).to.equal("C:\\");
 	});
 
-	it("gitWin.toWin32(\"/tmp\")", () => {
-		expect(
-			gitWin.toWin32("/tmp")
-		).to.equal(os.tmpdir());
+	it("gitWin.toWin32(\"c:\\\")", () => {
+		expect(gitWin.toWin32("c:\\")).to.equal("C:\\");
 	});
+
+	if (!path.posix.isAbsolute(os.tmpdir())) {
+		it("gitWin.toWin32(\"/tmp\")", () => {
+			expect(
+				gitWin.toWin32("/tmp")
+			).to.equal(os.tmpdir());
+		});
+	}
 
 	it("gitWin.toWin32(\"~/\")", () => {
 		expect(
@@ -215,22 +246,22 @@ describe("resolve path", () => {
 	it(`gitWin.resolve("${file}")`, () => {
 		expect(
 			gitWin.resolve(file)
-		).to.equal(path.normalize(file));
+		).to.equal(path.win32.normalize(file));
 	});
 
-	it("gitWin.resolve(\"bin/bash\")", () => {
+	it("gitWin.resolve(\"bin/sh\")", () => {
 		expect(
 			gitWin.resolve("bin/sh")
-		).to.equal("bin\\sh");
+		).to.equal(path.normalize("bin/sh"));
 	});
 
 	it("gitWin.resolve(\"bin/bash\")", () => {
 		expect(
 			gitWin.resolve("bin/bash")
-		).to.equal("bin\\bash");
+		).to.equal(path.normalize("bin/bash"));
 	});
 
-	it("gitWin.toWin32(\"bin/bash\")", () => {
+	it("gitWin.toWin32(\"bin/sh\")", () => {
 		expect(
 			gitWin.toWin32("bin/sh")
 		).to.equal("bin\\sh");
@@ -261,7 +292,7 @@ describe("resolve path", () => {
 	});
 
 	it("gitWin.mingw", async () => {
-		expect((await fs.stat(`${gitWin.root}\\${gitWin.mingw}\\bin\\curl.exe`)).isFile()).to.equal(true);
+		expect((await fsStat(`${gitWin.root}\\${gitWin.mingw}\\bin\\curl.exe`)).isFile()).to.equal(true);
 	});
 
 	[
@@ -273,7 +304,7 @@ describe("resolve path", () => {
 		"/mingw32",
 	].map((mingw) => {
 		it(`gitWin.resolve("${mingw}")`, () => {
-			expect(gitWin.resolve(mingw)).to.equal(mingw.replace(/\w+/, gitWin.mingw));
+			expect(gitWin.resolve(mingw)).to.equal("/" + gitWin.mingw);
 		});
 		const posixCurl = `/${gitWin.mingw}/bin/curl`;
 		const win32Curl = path.win32.join(gitWin.root, gitWin.mingw, "/bin/curl");
@@ -327,5 +358,45 @@ describe("resolve path", () => {
 	});
 	it(`gitWin.toPosix("${cygComSpec}")`, () => {
 		expect(gitWin.toPosix(ComSpec)).to.equal("/c/Windows/system32/cmd.exe");
+	});
+});
+
+describe("gitWin.toWin32()", () => {
+	[
+		[["c:/blah\\blah", "d:/games", "c:../a"], "C:\\blah\\a"],
+		[["c:/ignore", "d:\\a/b\\c/d", "\\e.exe"], "D:\\e.exe"],
+		[["c:/ignore", "c:/some/file"], "C:\\some\\file"],
+		[["d:/ignore", "d:some/dir//"], "D:\\ignore\\some\\dir"],
+		[["."], "."],
+		// [["\\\\server/share", "..", "relative\\"], "\\\\server\\share\\relative"],
+		[["c:/", "\\"], "C:\\"],
+		[["c:/", "dir"], "C:\\dir"],
+		[["c:/", "some//dir"], "C:\\some\\dir"],
+		[["C:\\foo\\tmp.3\\", "..\\tmp.3\\cycles\\root.js"], "C:\\foo\\tmp.3\\cycles\\root.js"],
+		[["c:/", "~/some/dir"], "%HOME%\\some\\dir"],
+		[["c:/", "~/some//dir"], "%HOME%\\some\\dir"],
+		[["c:/", "~\\some\\dir"], "%HOME%\\some\\dir"],
+	].forEach(testCase => {
+		it(JSON.stringify(testCase[0]) + " => " + testCase[1], () => {
+			expect(gitWin.toWin32(...testCase[0])).to.equal(testCase[1]);
+		});
+	});
+});
+
+describe("gitWin.toPosix()", () => {
+	[
+		[["/var/lib", "../", "file/"], "/var/file"],
+		[["/var/lib", "/../", "file/"], "/file"],
+		[["a/b/c/", "../../.."], "."],
+		[["."], "."],
+		[["/some/dir", ".", "/absolute/"], "/absolute"],
+		[["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"],
+		[["/foo/", "~/bar"], "~/bar"],
+		[["~/foo/", "~/bar"], "~/bar"],
+		[["~/foo/", "/bar"], "/bar"],
+	].forEach(testCase => {
+		it(JSON.stringify(testCase[0]) + " => " + testCase[1], () => {
+			expect(gitWin.toPosix(...testCase[0])).to.equal(testCase[1]);
+		});
 	});
 });

@@ -129,7 +129,11 @@ function getGitDir () {
 }
 
 function hasFile (...args) {
-	const filePath = path.win32.resolve(...args);
+	if (path !== path.win32) {
+		args = args.map(dir => /^\w:/.test(dir) ? `/mnt/${dir[0].toLowerCase()}/` + dir.slice(2).replace(/\\+/g, "/") : dir);
+	}
+
+	const filePath = path.resolve(...args);
 	if (!(filePath in hasFileCache)) {
 		try {
 			hasFileCache[filePath] = fs.statSync(filePath).isFile() && filePath;

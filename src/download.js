@@ -4,7 +4,7 @@ const path = require("path");
 const checkDownload = require("./check-download");
 const getAsset = require("./get-asset");
 const nugget = (require("util").promisify || require("util.promisify"))(require("nugget"));
-const tmpPath = path.join.bind(path, os.tmpdir());
+const tmpPath = path.join.bind(path, process.platform === "win32" ? os.tmpdir() : "/mnt/c/Windows/Temp/");
 const inGFW = require("in-gfw");
 
 /**

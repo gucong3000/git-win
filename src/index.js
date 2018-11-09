@@ -37,7 +37,12 @@ class Cygwin {
 			"/usr/bin/mount",
 			"/bin/mount",
 		].find(file => {
-			mount = cp.spawnSync(path.join(root, file + ".exe"), spawnOpts).stdout;
+			if (path === path.win32) {
+				file = path.join(root, file + ".exe");
+			} else {
+				file = path.join("/mnt", root[0].toLowerCase(), toPosix(root.slice(2)), file + ".exe");
+			}
+			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
 		mount = mount && mount.split(/\r?\n/g).map(fs => {
@@ -79,30 +84,35 @@ class Cygwin {
 
 	resolve (...args) {
 		args = args.filter(Boolean);
+		if (!args.length) {
+			return "";
+		}
 		for (let i = args.length - 1; i >= 0; i--) {
 			if (path.posix.isAbsolute(args[i])) {
-				let absPath = path.posix.join(...args.slice(i).map(toPosix));
-				const ctgPath = /^((?:\/.+?)?)\/([a-z]):*(?=\/|$)/i.exec(absPath);
-				if (ctgPath && (ctgPath[1].endsWith("/cygdrive") || ctgPath[1] === "/mnt" || ctgPath[1] === this.cygdrive)) {
-					absPath = path.win32.join(ctgPath[2].toUpperCase() + ":", absPath.slice(ctgPath[0].length) || "/");
+				let absPath = path.posix.resolve(...args.slice(i).map(toPosix));
+				const cygPath = /^((?:\/.+?)?)\/([a-z]):*(?=\/|$)/i.exec(absPath);
+				if (cygPath && (cygPath[1].endsWith("/cygdrive") || cygPath[1] === "/mnt" || cygPath[1] === this.cygdrive)) {
+					absPath = path.win32.join(cygPath[2].toUpperCase() + ":", absPath.slice(cygPath[0].length) || "/");
 					return this.fixPosixRoot(absPath) || absPath;
 				}
 				return this.fixMinGWPath(absPath);
 			} else if (/^[A-Z]:/i.test(args[i])) {
-				args[i] = args[i][0].toUpperCase() + ":/" + args[i].slice(2);
-				const absPath = path.win32.join(...args.slice(i));
+				args[i] = args[i].replace(/^[a-z]:/, (s) => s.toUpperCase());
+				const reDevice = new RegExp(`^${args[i][0]}:${rePathSep.source}`, "i");
+				if (
+					!args.slice(0, i).some(arg => reDevice.test(arg))
+				) {
+					args[i] = args[i][0] + ":/" + args[i].slice(2);
+				}
+				const absPath = path.win32.resolve(...args);
 				return this.fixPosixRoot(absPath) || absPath;
 			} else if (rePathTilde.test(args[i])) {
 				args[i] = "/" + args[i].slice(1);
-				const absPath = path.posix.join(...args.slice(i).map(toPosix));
+				const absPath = path.posix.resolve(...args.slice(i).map(toPosix));
 				return this.fixPosixRoot(path.win32.join(process.env.HOME || os.homedir(), absPath)) || absPath.replace(/^(?:\/+$)?/, "~");
 			}
 		}
-		if (args.length) {
-			return path.join(...args.map(toPosix));
-		} else {
-			return "";
-		}
+		return this.fixPosixRoot(path.resolve(...args)) || path.join(...args.map(toPosix));
 	}
 
 	toWin32 (...args) {
