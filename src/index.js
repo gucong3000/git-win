@@ -45,7 +45,7 @@ class Cygwin {
 			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
-		mount = mount && mount.split(/\r?\n/g).map(fs => {
+		mount = mount.split(/\r?\n/g).map(fs => {
 			fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
 			if (!fs || fs[2] === "/") {
 				return;
@@ -56,6 +56,12 @@ class Cygwin {
 			}
 			return [fs[2], this.resolve(fs[1]) || fs[1]];
 		}).filter(Boolean);
+		if (mount && this.mingw) {
+			mount.unshift(
+				["/bin/bash", "/bin/bash"],
+				["/bin/sh", "/bin/sh"]
+			);
+		}
 		this.mount = new Map(mount);
 	}
 
