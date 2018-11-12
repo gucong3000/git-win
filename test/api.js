@@ -400,3 +400,28 @@ describe("gitWin.toPosix()", () => {
 		});
 	});
 });
+
+describe("/etc/*", () => {
+	it("/etc/protocols", () => {
+		expect(gitWin.toWin32("/etc/protocols")).to.equal("%windir%\\System32\\drivers\\etc\\protocol");
+	});
+	[
+		"hosts",
+		"networks",
+		"services",
+	].forEach(file => {
+		it("/etc/" + file, () => {
+			expect(gitWin.toWin32("/etc/" + file)).to.equal("%windir%\\System32\\drivers\\etc\\" + file);
+		});
+	});
+
+	[
+		"profile",
+		"profile.d",
+		"fstab",
+	].forEach(file => {
+		it("/etc/" + file, () => {
+			expect(gitWin.toWin32("/etc/" + file)).to.equal(path.win32.join(gitWin.root, "/etc/" + file));
+		});
+	});
+});

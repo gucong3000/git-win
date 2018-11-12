@@ -6,6 +6,7 @@ const path = require("path");
 const os = require("os");
 const rePathSep = /[\\/]+/g;
 const rePathTilde = /^~(?=[/\\]|$)/;
+const etcPath = "%windir%\\System32\\drivers\\etc\\";
 
 function toPosix (path) {
 	return path.replace(rePathSep, "/");
@@ -45,7 +46,7 @@ class Cygwin {
 			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
-		mount = mount.split(/\r?\n/g).map(fs => {
+		mount = (mount && mount.split(/\r?\n/g).map(fs => {
 			fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
 			if (!fs || fs[2] === "/") {
 				return;
@@ -55,8 +56,14 @@ class Cygwin {
 				return;
 			}
 			return [fs[2], this.resolve(fs[1]) || fs[1]];
-		}).filter(Boolean);
-		if (mount && this.mingw) {
+		}).filter(Boolean)) || [];
+		mount.unshift(
+			["/etc/protocols", etcPath + "protocol"],
+			["/etc/hosts", etcPath + "hosts"],
+			["/etc/networks", etcPath + "networks"],
+			["/etc/services", etcPath + "services"]
+		);
+		if (this.mingw) {
 			mount.unshift(
 				["/bin/bash", "/bin/bash"],
 				["/bin/sh", "/bin/sh"]
