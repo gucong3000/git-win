@@ -5,7 +5,7 @@ const assert = require("assert");
 const path = require("path");
 const os = require("os");
 const rePathSep = /[\\/]+/g;
-const rePathTilde = /^~(?=[/\\]|$)/;
+const rePathTilde = /^(?:~|%HOME%)(?=[/\\]|$)/;
 const etcPath = "%windir%\\System32\\drivers\\etc\\";
 
 function toPosix (path) {
@@ -120,7 +120,7 @@ class Cygwin {
 				const absPath = path.win32.resolve(...args);
 				return this.fixPosixRoot(absPath) || absPath;
 			} else if (rePathTilde.test(args[i])) {
-				args[i] = "/" + args[i].slice(1);
+				args[i] = "/" + rightPath(args[i]);
 				const absPath = path.posix.resolve(...args.slice(i).map(toPosix));
 				return this.fixPosixRoot(path.win32.join(process.env.HOME || os.homedir(), absPath)) || absPath.replace(/^(?:\/+$)?/, "~");
 			}
@@ -149,7 +149,7 @@ class Cygwin {
 		if (path.posix.isAbsolute(file)) {
 			file = path.win32.join(this.root, file);
 		} else if (rePathTilde.test(file)) {
-			file = path.win32.join("%HOME%", file.slice(1));
+			file = path.win32.join("%HOME%", rightPath(file));
 		} else {
 			file = path.win32.normalize(file);
 		}

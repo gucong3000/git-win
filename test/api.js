@@ -208,6 +208,18 @@ describe("resolve path", () => {
 		).to.equal("~");
 	});
 
+	it("gitWin.resolve(\"%HOME%\")", () => {
+		expect(
+			gitWin.resolve("%HOME%")
+		).to.equal("~");
+	});
+
+	it("gitWin.resolve(\"%HOME%/test\")", () => {
+		expect(
+			gitWin.resolve("%HOME%/test")
+		).to.equal("~/test");
+	});
+
 	[
 		"mingw00/bin/curl",
 		"mingw64/bin/curl",

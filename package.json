@@ -13,9 +13,9 @@
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.5",
+    "@babel/core": "^7.1.6",
     "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-env": "^7.1.6",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -64,7 +64,7 @@
     "install": "node lib/install.js",
     "build": "rm -rf lib *.tgz && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
-    "pretest": "eslint src test && bash -c \"eclint check $(git ls-files)\"",
+    "pretest": "eslint src test && sh -c \"eclint check $(git ls-files)\"",
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
