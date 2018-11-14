@@ -67,12 +67,6 @@ class Cygwin {
 			["/etc/networks", etcPath + "networks"],
 			["/etc/services", etcPath + "services"]
 		);
-		if (this.mingw) {
-			mount.unshift(
-				["/bin/bash", "/bin/bash"],
-				["/bin/sh", "/bin/sh"]
-			);
-		}
 		this.mount = new Map(mount);
 	}
 

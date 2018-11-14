@@ -128,13 +128,13 @@ describe("resolve path", () => {
 	it("gitWin.toWin32(\"/bin/sh\")", () => {
 		expect(
 			gitWin.toWin32("/bin/sh")
-		).to.equal(path.win32.join(gitWin.root, "/bin/sh"));
+		).to.equal(path.win32.join(gitWin.root, "/usr/bin/sh"));
 	});
 
 	it("gitWin.resolve(\"/bin/bash\")", () => {
 		expect(
 			gitWin.toWin32("/bin/bash")
-		).to.equal(path.win32.join(gitWin.root, "/bin/bash"));
+		).to.equal(path.win32.join(gitWin.root, "/usr/bin/bash"));
 	});
 
 	it("gitWin.toWin32(\"/bin/dash\")", () => {
