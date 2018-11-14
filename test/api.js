@@ -100,7 +100,6 @@ describe("git path", () => {
 				path.posix.join(gitWin.root[0].toLowerCase(), gitWin.root.slice(3).replace(/\\/g, "/")),
 			])
 		).to.equal(undefined);
-		console.log(path.posix.join(gitWin.root[0].toLowerCase(), gitWin.root.slice(3).replace(/\\/g, "/")));
 	});
 });
 
