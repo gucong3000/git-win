@@ -1,6 +1,5 @@
 "use strict";
 const crypto = require("crypto");
-const spawn = require("./spawn");
 const fs = require("fs-extra");
 
 /**
@@ -32,15 +31,6 @@ async function check (file, size, hashCode) {
 }
 
 async function getFileHash (file) {
-	if (process.platform !== "win32") {
-		const hash = await spawn("sha256sum", [
-			file,
-		],
-		{
-			stdio: "pipe",
-		});
-		return hash.trim().replace(/^(\w+).*/, "$1");
-	}
 	const hash = crypto.createHash("sha256");
 	const input = fs.createReadStream(file);
 	return new Promise((resolve, reject) => {

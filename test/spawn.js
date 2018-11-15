@@ -4,10 +4,10 @@ const spawn = require("../src/spawn");
 
 describe("git path", () => {
 	it("git --version", () => {
-		return spawn("git", ["--version"]);
+		return spawn("git.exe", ["--version"]);
 	});
 	it("git --version", () => {
-		return spawn("git", ["--version"], {
+		return spawn("git.exe", ["--version"], {
 			stdio: "pipe",
 		}).then(result => {
 			expect(result.trim()).to.match(/^git version (\d+\.)+windows(.\d+)?$/);

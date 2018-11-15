@@ -7,14 +7,12 @@ const os = require("os");
 const fs = require("fs-extra");
 
 async function getGitInstallVersion (gitInstallPath) {
-	if (path !== path.win32) {
-		gitInstallPath = `/mnt/${gitInstallPath[0].toLowerCase()}/` + gitInstallPath.slice(2).replace(/\\+/g, "/");
+	const git = gitPath.findFile(gitInstallPath, "cmd/git.exe");
+	if (!git) {
+		return;
 	}
 	const stdout = await spawn(
-		path.join(
-			gitInstallPath,
-			"cmd/git.exe"
-		),
+		git,
 		[
 			"--version",
 		],
@@ -28,6 +26,7 @@ async function getGitInstallVersion (gitInstallPath) {
 }
 
 async function installGit (version) {
+	/* istanbul ignore if */
 	if (process.platform !== "win32" && !/\bMicrosoft\b/i.test(os.release())) {
 		console.error("`git-win` not support this platform, please install from Windows.");
 		process.exit(1);
@@ -52,9 +51,7 @@ async function installGit (version) {
 		args.push(...remain);
 	}
 
-	if (process.platform !== "win32") {
-		await fs.chmod(setuppack, 0o755);
-	}
+	await fs.chmod(setuppack, 0o755);
 
 	console.log(`${setuppack} ${args.join(" ")}\nWaiting for git installation to complete.`);
 

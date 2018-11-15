@@ -21,24 +21,24 @@ describe("git download", () => {
 	it("2.17", async () => {
 		const file = await download("2.17");
 
-		expect(file).to.match(/\\Git-2\.17(?:\.\d+)*-\w+-bit\.exe$/);
+		expect(file).to.match(/[\\/]Git-2\.17(?:\.\d+)*-\w+-bit\.exe$/);
 
-		await expect(
-			fs.stat(file).then(stats => stats.isFile())
-		).eventually.to.be.true;
+		expect(
+			(await fs.stat(file)).isFile()
+		).to.be.equal(true);
 
-		await expect(
-			download("2.17")
-		).eventually.to.equal(file);
+		expect(
+			await download("2.17")
+		).to.equal(file);
 	});
 	it("latest", async () => {
 		process.env.GIT4WIN_MIRROR = inGFW.osSync() ? "https://npm.taobao.org/mirrors/git-for-windows/" : "https://github.com/git-for-windows/git/releases/download/";
 		const file = await download();
 
-		expect(file).to.match(/\\Git-(?:\d+\.)+\d-\w+-bit\.exe$/);
+		expect(file).to.match(/[\\/]Git-(?:\d+\.)+\d-\w+-bit\.exe$/);
 
-		await expect(
-			fs.stat(file).then(stats => stats.isFile())
-		).eventually.to.be.true;
+		expect(
+			(await fs.stat(file)).isFile()
+		).to.be.equal(true);
 	});
 });
