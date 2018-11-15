@@ -39,14 +39,10 @@ class Cygwin {
 
 		let mount;
 		[
-			"/usr/bin/mount",
-			"/bin/mount",
+			"usr/bin/mount",
+			"bin/mount",
 		].find(file => {
-			if (path === path.win32) {
-				file = path.join(root, file + ".exe");
-			} else {
-				file = path.join("/mnt", root[0].toLowerCase(), toPosix(root.slice(2)), file + ".exe");
-			}
+			file = gitPath.findFile(root, file + ".exe") || file;
 			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
