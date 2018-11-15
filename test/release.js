@@ -9,8 +9,8 @@ describe("git release", () => {
 				Promise.reject(new Error("Network failure"))
 			),
 		});
-		await expect(
-			getRelease(2)
-		).eventually.to.have.property("id").greaterThan(9749756);
+		expect(
+			await getRelease(2)
+		).to.have.property("id").greaterThan(9749756);
 	});
 });

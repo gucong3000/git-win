@@ -75,11 +75,21 @@ function findGitDir (dirs) {
 		has[key] = true;
 	});
 	return result.find((dir) => (
-		hasFile(dir, "cmd/git.exe")
+		findFile(dir, "cmd/git.exe")
 	));
 }
 
 function pathResolve (strPath) {
+	/* istanbul ignore if */
+	if (process.platform !== "win32") {
+		try {
+			strPath = cp.spawnSync("wslpath", ["-w", strPath], {
+				encoding: "utf8",
+			}).stdout.trim() || strPath;
+		} catch (ex) {
+			//
+		}
+	}
 	const mntPath = /^([a-z]):+/i.exec(strPath) || /^\/(?:.+?\/)?([a-z]):*(?=\/|$)/i.exec(strPath);
 	if (mntPath) {
 		strPath = mntPath[1].toUpperCase() + ":" + strPath.slice(mntPath[0].length);
@@ -128,13 +138,23 @@ function getGitDir () {
 	return getGitDirByRegstry(osArch) || (osArch === "64" && getGitDirByRegstry("32")) || getGitDirByPathEnv() || lookupGitDir();
 }
 
-function hasFile (...args) {
-	const filePath = path.win32.resolve(...args);
+function findFile (...args) {
+	let filePath = path.win32.resolve(...args);
+	/* istanbul ignore if */
+	if (process.platform !== "win32") {
+		try {
+			filePath = cp.spawnSync("wslpath", [filePath], {
+				encoding: "utf8",
+			}).stdout.trim() || filePath;
+		} catch (ex) {
+			//
+		}
+	}
 	if (!(filePath in hasFileCache)) {
 		try {
 			hasFileCache[filePath] = fs.statSync(filePath).isFile() && filePath;
 		} catch (ex) {
-			hasFileCache[filePath] = false;
+			hasFileCache[filePath] = null;
 		}
 	}
 
@@ -159,7 +179,7 @@ function getMingwDir (gitDir) {
 	result.unshift(osArch);
 	result = result.map(arch => "mingw" + arch);
 	result = result.find(mingwDir => {
-		return hasFile(gitDir, mingwDir + "/bin/git.exe");
+		return findFile(gitDir, mingwDir + "/bin/git.exe");
 	});
 	mingwVal[key] = result;
 	return result;
@@ -171,4 +191,5 @@ module.exports = {
 	getGitDirByRegstry,
 	lookupGitDir,
 	getMingwDir,
+	findFile,
 };

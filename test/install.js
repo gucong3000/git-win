@@ -1,7 +1,7 @@
 "use strict";
-const os = require("os");
-const expect = require("chai").expect;
 const proxyquire = require("proxyquire");
+const path = require("path");
+const expect = require("chai").expect;
 // const fs = require('fs-extra');
 
 describe("git install", () => {
@@ -10,19 +10,20 @@ describe("git install", () => {
 	const install = proxyquire("../src/install", {
 		"./git-path": {
 			getGitDir: () => mockInstallDir.shift(),
+			findFile: path.win32.resolve.bind(path.win32),
 		},
 		"./spawn": (cmd, args) => {
 			if (cmd.endsWith("\\cmd\\git.exe")) {
 				if (mockVersion.length) {
 					return Promise.resolve("git version " + mockVersion.shift());
 				}
-			} else if (cmd.startsWith(os.tmpdir())) {
-				const v = cmd.replace(/^.+\\Git-(.+)-\d+-bit.exe$/i, "$1");
+			} else if (/[\\/]Git-(.+)-\d+-bit.exe$/i.test(cmd)) {
+				const v = RegExp.$1;
 				mockVersion.unshift(v);
 				mockInstallDir.unshift("C:\\mock\\" + v + "\\Git");
 				return Promise.resolve("");
 			}
-			return Promise.reject(new Error("mock error"));
+			return Promise.reject(new Error([cmd, ...args].join(" ")));
 		},
 	});
 

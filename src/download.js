@@ -4,8 +4,42 @@ const path = require("path");
 const checkDownload = require("./check-download");
 const getAsset = require("./get-asset");
 const nugget = (require("util").promisify || require("util.promisify"))(require("nugget"));
-const tmpPath = path.join.bind(path, os.tmpdir());
+const spawn = require("./spawn");
 const inGFW = require("in-gfw");
+
+async function tmpPath (fileName) {
+	let tmpdir;
+	/* istanbul ignore if */
+	if (process.platform !== "win32") {
+		const stdout = await spawn(
+			"cmd.exe",
+			[
+				"/d",
+				"/s",
+				"/c",
+				"SET",
+			],
+			{
+				stdio: "pipe",
+			}
+		).catch(() => "");
+		tmpdir = /^TMP?=(.*)$/igm.exec(stdout)[1];
+		tmpdir = await spawn(
+			"wslpath",
+			[
+				tmpdir,
+			],
+			{
+				stdio: "pipe",
+			}
+		).catch(() => tmpdir);
+		tmpdir = tmpdir.trim();
+	} else {
+		tmpdir = os.tmpdir();
+	}
+
+	return path.join(tmpdir, fileName);
+}
 
 /**
  * 下载 Git for windows
@@ -21,7 +55,7 @@ async function download (version) {
 		mirror = mirror.replace(/\/*$/, "/");
 		url = url.replace(/^.+?\/download\//, mirror);
 	}
-	const dist = tmpPath(asset.name);
+	const dist = await tmpPath(asset.name);
 	await down(url, dist, asset);
 	return dist;
 }

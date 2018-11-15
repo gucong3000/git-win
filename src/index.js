@@ -5,10 +5,15 @@ const assert = require("assert");
 const path = require("path");
 const os = require("os");
 const rePathSep = /[\\/]+/g;
-const rePathTilde = /^~(?=[/\\]|$)/;
+const rePathTilde = /^(?:~|%HOME%)(?=[/\\]|$)/;
+const etcPath = "%windir%\\System32\\drivers\\etc\\";
+const {
+	win32: pathWin32,
+	posix: pathPosix,
+} = path;
 
-function toPosix (path) {
-	return path.replace(rePathSep, "/");
+function toPosix (strPath) {
+	return strPath.replace(rePathSep, "/");
 }
 
 function rightPath (absPath) {
@@ -17,7 +22,7 @@ function rightPath (absPath) {
 
 class Cygwin {
 	constructor (root) {
-		root = root ? path.win32.resolve(root) : gitPath.getGitDir();
+		root = root ? pathWin32.resolve(root) : gitPath.getGitDir();
 		assert.ok(root, "Git not found, please install Git and try again.\nhttps://git-for-windows.github.io/\nhttps://npm.taobao.org/mirrors/git-for-windows/");
 
 		this.root = root;
@@ -34,13 +39,14 @@ class Cygwin {
 
 		let mount;
 		[
-			"/usr/bin/mount",
-			"/bin/mount",
+			"usr/bin/mount",
+			"bin/mount",
 		].find(file => {
-			mount = cp.spawnSync(path.join(root, file + ".exe"), spawnOpts).stdout;
+			file = gitPath.findFile(root, file + ".exe") || file;
+			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
-		mount = mount && mount.split(/\r?\n/g).map(fs => {
+		mount = (mount && mount.split(/\r?\n/g).map(fs => {
 			fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
 			if (!fs || fs[2] === "/") {
 				return;
@@ -50,7 +56,13 @@ class Cygwin {
 				return;
 			}
 			return [fs[2], this.resolve(fs[1]) || fs[1]];
-		}).filter(Boolean);
+		}).filter(Boolean)) || [];
+		mount.unshift(
+			["/etc/protocols", etcPath + "protocol"],
+			["/etc/hosts", etcPath + "hosts"],
+			["/etc/networks", etcPath + "networks"],
+			["/etc/services", etcPath + "services"]
+		);
 		this.mount = new Map(mount);
 	}
 
@@ -79,30 +91,35 @@ class Cygwin {
 
 	resolve (...args) {
 		args = args.filter(Boolean);
+		if (!args.length) {
+			return "";
+		}
 		for (let i = args.length - 1; i >= 0; i--) {
-			if (path.posix.isAbsolute(args[i])) {
-				let absPath = path.posix.join(...args.slice(i).map(toPosix));
-				const ctgPath = /^((?:\/.+?)?)\/([a-z]):*(?=\/|$)/i.exec(absPath);
-				if (ctgPath && (ctgPath[1].endsWith("/cygdrive") || ctgPath[1] === "/mnt" || ctgPath[1] === this.cygdrive)) {
-					absPath = path.win32.join(ctgPath[2].toUpperCase() + ":", absPath.slice(ctgPath[0].length) || "/");
+			if (pathPosix.isAbsolute(args[i])) {
+				let absPath = pathPosix.resolve(...args.slice(i).map(toPosix));
+				const cygPath = /^((?:\/.+?)?)\/([a-z]):*(?=\/|$)/i.exec(absPath);
+				if (cygPath && (cygPath[1].endsWith("/cygdrive") || cygPath[1] === "/mnt" || cygPath[1] === this.cygdrive)) {
+					absPath = pathWin32.join(cygPath[2].toUpperCase() + ":", absPath.slice(cygPath[0].length) || "/");
 					return this.fixPosixRoot(absPath) || absPath;
 				}
 				return this.fixMinGWPath(absPath);
 			} else if (/^[A-Z]:/i.test(args[i])) {
-				args[i] = args[i][0].toUpperCase() + ":/" + args[i].slice(2);
-				const absPath = path.win32.join(...args.slice(i));
+				args[i] = args[i].replace(/^[a-z]:/, (s) => s.toUpperCase());
+				const reDevice = new RegExp(`^${args[i][0]}:${rePathSep.source}`, "i");
+				if (
+					!args.slice(0, i).some(arg => reDevice.test(arg))
+				) {
+					args[i] = args[i][0] + ":/" + args[i].slice(2);
+				}
+				const absPath = pathWin32.resolve(...args);
 				return this.fixPosixRoot(absPath) || absPath;
 			} else if (rePathTilde.test(args[i])) {
-				args[i] = "/" + args[i].slice(1);
-				const absPath = path.posix.join(...args.slice(i).map(toPosix));
-				return this.fixPosixRoot(path.win32.join(process.env.HOME || os.homedir(), absPath)) || absPath.replace(/^(?:\/+$)?/, "~");
+				args[i] = "/" + rightPath(args[i]);
+				const absPath = pathPosix.resolve(...args.slice(i).map(toPosix));
+				return this.fixPosixRoot(pathWin32.join(process.env.HOME || os.homedir(), absPath)) || absPath.replace(/^(?:\/+$)?/, "~");
 			}
 		}
-		if (args.length) {
-			return path.join(...args.map(toPosix));
-		} else {
-			return "";
-		}
+		return this.fixPosixRoot(path.resolve(...args)) || path.join(...args.map(toPosix));
 	}
 
 	toWin32 (...args) {
@@ -123,12 +140,12 @@ class Cygwin {
 			}
 		}
 
-		if (path.posix.isAbsolute(file)) {
-			file = path.win32.join(this.root, file);
+		if (pathPosix.isAbsolute(file)) {
+			file = pathWin32.join(this.root, file);
 		} else if (rePathTilde.test(file)) {
-			file = path.win32.join("%HOME%", file.slice(1));
+			file = pathWin32.join("%HOME%", rightPath(file));
 		} else {
-			file = path.win32.normalize(file);
+			file = pathWin32.normalize(file);
 		}
 
 		return file;
@@ -140,7 +157,7 @@ class Cygwin {
 			return file;
 		}
 		if (/^[A-Z]:+/i.test(file)) {
-			file = path.posix.join(this.cygdrive || "/", file[0].toLowerCase(), toPosix(rightPath(file)));
+			file = pathPosix.join(this.cygdrive || "/", file[0].toLowerCase(), toPosix(rightPath(file)));
 		}
 		return file;
 	}

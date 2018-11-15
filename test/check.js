@@ -1,9 +1,13 @@
 "use strict";
-const expect = require("chai").expect;
 const check = require("../src/check-download");
 const fs = require("fs-extra");
 const path = require("path");
 const os = require("os");
+const chai = require("chai");
+const expect = chai.expect;
+
+const chaiAsPromised = require("chai-as-promised");
+chai.use(chaiAsPromised);
 
 describe("git check download", () => {
 	const file = path.join(os.tmpdir(), "Git-mock.exe");
