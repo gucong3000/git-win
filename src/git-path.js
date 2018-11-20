@@ -6,7 +6,8 @@ const fs = require("fs-extra");
 const reEnvKey = /%(.+?)%/g;
 const mingwVal = {};
 const hasFileCache = {};
-const regExe = process.platform === "win32" ? path.win32.join(process.env.SystemRoot || process.env.windir || "C:/Windows", "System32/reg.exe") : "reg.exe";
+const isWin32 = process.platform === "win32";
+const regExe = isWin32 ? path.win32.join(process.env.SystemRoot || process.env.windir || "C:/Windows", "System32/reg.exe") : "reg.exe";
 
 /**
  * Query Git install dir from registry
@@ -81,7 +82,7 @@ function findGitDir (dirs) {
 
 function pathResolve (strPath) {
 	/* istanbul ignore if */
-	if (process.platform !== "win32") {
+	if (!isWin32 && path.posix.isAbsolute(strPath)) {
 		try {
 			strPath = cp.spawnSync("wslpath", ["-w", strPath], {
 				encoding: "utf8",
@@ -140,25 +141,22 @@ function getGitDir () {
 
 function findFile (...args) {
 	let filePath = path.win32.resolve(...args);
-	/* istanbul ignore if */
-	if (process.platform !== "win32") {
+	const key = filePath;
+	if (!(key in hasFileCache)) {
 		try {
-			filePath = cp.spawnSync("wslpath", [filePath], {
-				encoding: "utf8",
-			}).stdout.trim() || filePath;
+			/* istanbul ignore if */
+			if (!isWin32) {
+				filePath = cp.spawnSync("wslpath", [filePath], {
+					encoding: "utf8",
+				}).stdout.trim();
+			}
+			hasFileCache[key] = filePath && fs.statSync(filePath).isFile() ? filePath : null;
 		} catch (ex) {
-			//
-		}
-	}
-	if (!(filePath in hasFileCache)) {
-		try {
-			hasFileCache[filePath] = fs.statSync(filePath).isFile() && filePath;
-		} catch (ex) {
-			hasFileCache[filePath] = null;
+			hasFileCache[key] = null;
 		}
 	}
 
-	return hasFileCache[filePath];
+	return hasFileCache[key];
 }
 
 /**

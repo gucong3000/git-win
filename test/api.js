@@ -80,6 +80,13 @@ describe("git path", () => {
 				])
 			).to.equal(gitWin.root);
 		}
+
+		expect(
+			gitPath.lookupGitDir([
+				"x:\\Program Files\\Git",
+			])
+		).to.equal(undefined);
+
 		expect(
 			gitPath.lookupGitDir([
 				gitWin.root.replace(/\\/g, "/"),
