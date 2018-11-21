@@ -91,7 +91,7 @@ function pathResolve (strPath) {
 			//
 		}
 	}
-	const mntPath = /^([a-z]):+/i.exec(strPath) || /^\/(?:.+?\/)?([a-z]):*(?=\/|$)/i.exec(strPath);
+	const mntPath = /^([a-z]):+/.exec(strPath) || /^\/(?:.+?\/)?([a-z]):*(?=\/|$)/i.exec(strPath);
 	if (mntPath) {
 		strPath = mntPath[1].toUpperCase() + ":" + strPath.slice(mntPath[0].length);
 	}

@@ -205,25 +205,25 @@ describe("resolve path", () => {
 	it("gitWin.resolve(\"~////\")", () => {
 		expect(
 			gitWin.resolve("~////")
-		).to.equal("~");
+		).to.equal("${HOME}");
 	});
 
 	it("gitWin.resolve(\"~\")", () => {
 		expect(
 			gitWin.resolve("~")
-		).to.equal("~");
+		).to.equal("${HOME}");
 	});
 
 	it("gitWin.resolve(\"%HOME%\")", () => {
 		expect(
 			gitWin.resolve("%HOME%")
-		).to.equal("~");
+		).to.equal("%HOME%");
 	});
 
 	it("gitWin.resolve(\"%HOME%/test\")", () => {
 		expect(
 			gitWin.resolve("%HOME%/test")
-		).to.equal("~/test");
+		).to.equal(path.normalize("%HOME%/test"));
 	});
 
 	[
@@ -393,7 +393,10 @@ describe("gitWin.toWin32()", () => {
 		[["C:\\foo\\tmp.3\\", "..\\tmp.3\\cycles\\root.js"], "C:\\foo\\tmp.3\\cycles\\root.js"],
 		[["c:/", "~/some/dir"], "%HOME%\\some\\dir"],
 		[["c:/", "~/some//dir"], "%HOME%\\some\\dir"],
-		[["c:/", "~\\some\\dir"], "%HOME%\\some\\dir"],
+		[["c:/", "~\\some\\dir"], "C:\\~\\some\\dir"],
+		[["c:", "./~/some/dir"], "C:\\~\\some\\dir"],
+		[["./~"], "~"],
+		[["~"], "%HOME%"],
 	].forEach(testCase => {
 		it(JSON.stringify(testCase[0]) + " => " + testCase[1], () => {
 			expect(gitWin.toWin32(...testCase[0])).to.equal(testCase[1]);
@@ -409,9 +412,11 @@ describe("gitWin.toPosix()", () => {
 		[["."], "."],
 		[["/some/dir", ".", "/absolute/"], "/absolute"],
 		[["/foo/tmp.3/", "../tmp.3/cycles/root.js"], "/foo/tmp.3/cycles/root.js"],
-		[["/foo/", "~/bar"], "~/bar"],
-		[["~/foo/", "~/bar"], "~/bar"],
+		[["/foo/", "~/bar"], "${HOME}/bar"],
+		[["~/foo/", "~/bar"], "${HOME}/bar"],
 		[["~/foo/", "/bar"], "/bar"],
+		[["./~"], "~"],
+		[["~"], "${HOME}"],
 	].forEach(testCase => {
 		it(JSON.stringify(testCase[0]) + " => " + testCase[1], () => {
 			expect(gitWin.toPosix(...testCase[0])).to.equal(testCase[1]);
