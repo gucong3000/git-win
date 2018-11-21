@@ -3,9 +3,9 @@ const os = require("os");
 const path = require("path");
 const checkDownload = require("./check-download");
 const getAsset = require("./get-asset");
-const nugget = (require("util").promisify || require("util.promisify"))(require("nugget"));
 const spawn = require("./spawn");
 const inGFW = require("in-gfw");
+let nugget;
 
 async function tmpPath (fileName) {
 	let tmpdir;
@@ -68,13 +68,56 @@ async function down (url, dist, asset) {
 		//
 	}
 	console.log("Download from:", url);
-	await nugget(url, {
-		target: dist,
-		quiet: process.env.CI,
-		resume: true,
-		strictSSL: false,
-	});
+
+	try {
+		await spawn("curl", [
+			process.env.CI && "--silent",
+			"--insecure",
+			"--location",
+			"--remote-time",
+			"--continue-at",
+			"-",
+			"--output",
+			dist,
+			url,
+		].filter(Boolean), {
+			argv0: "curl",
+			env: Object.assign({
+				https_proxy: process.env.npm_config_https_proxy,
+			}, process.env),
+		});
+	} catch (ex) {
+		if ((ex.errno || ex.code) === "ENOENT") {
+			if (!nugget) {
+				nugget = fromCallback(require("nugget"));
+			}
+			await nugget(url, {
+				target: dist,
+				quiet: process.env.CI,
+				resume: true,
+				strictSSL: false,
+			});
+		} else {
+			// console.error(ex);
+			throw ex;
+		}
+	}
 	return down(url, dist, asset);
 }
 
+function fromCallback (fn) {
+	return function () {
+		return new Promise((resolve, reject) => {
+			arguments[arguments.length] = (err, res) => {
+				if (err) {
+					reject(err);
+				} else {
+					resolve(res);
+				}
+			};
+			arguments.length++;
+			fn.apply(this, arguments);
+		});
+	};
+}
 module.exports = download;

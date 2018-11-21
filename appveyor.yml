@@ -17,7 +17,6 @@ install:
   # install Node.js
   - ps: Install-Product node $env:nodejs_version $env:platform
   # install modules
-  - npm run preinstall -s
   - npm install --ignore-scripts
 
 # to run your custom scripts instead of automatic tests
