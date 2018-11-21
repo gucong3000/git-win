@@ -1,6 +1,7 @@
 *.log
 *.pid
 *.seed
+*.tgz
 .circleci
 .editorconfig
 .babelrc
