@@ -3,9 +3,7 @@ const gitPath = require("./git-path");
 const cp = require("child_process");
 const assert = require("assert");
 const path = require("path");
-const os = require("os");
 const rePathSep = /[\\/]+/g;
-const rePathTilde = /^(?:~|%HOME%)(?=[/\\]|$)/;
 const etcPath = "%windir%\\System32\\drivers\\etc\\";
 const {
 	win32: pathWin32,
@@ -104,7 +102,7 @@ class Cygwin {
 				}
 				return this.fixMinGWPath(absPath);
 			} else if (/^[A-Z]:/i.test(args[i])) {
-				args[i] = args[i].replace(/^[a-z]:/, (s) => s.toUpperCase());
+				args[i] = args[i].replace(/^[a-z](?=:)/, (s) => s.toUpperCase());
 				const reDevice = new RegExp(`^${args[i][0]}:${rePathSep.source}`, "i");
 				if (
 					!args.slice(0, i).some(arg => reDevice.test(arg))
@@ -113,10 +111,11 @@ class Cygwin {
 				}
 				const absPath = pathWin32.resolve(...args);
 				return this.fixPosixRoot(absPath) || absPath;
-			} else if (rePathTilde.test(args[i])) {
-				args[i] = "/" + rightPath(args[i]);
-				const absPath = pathPosix.resolve(...args.slice(i).map(toPosix));
-				return this.fixPosixRoot(pathWin32.join(process.env.HOME || os.homedir(), absPath)) || absPath.replace(/^(?:\/+$)?/, "~");
+			} else if (/^~(?=\/|$)/.test(args[i])) {
+				args[i] = args[i].slice(1);
+				const absPath = pathPosix.resolve("/", ...args.slice(i).map(toPosix));
+				/* eslint-disable-next-line no-template-curly-in-string */
+				return absPath.replace(/^(?:\/+$)?/, "${HOME}");
 			}
 		}
 		return this.fixPosixRoot(path.resolve(...args)) || path.join(...args.map(toPosix));
@@ -142,7 +141,7 @@ class Cygwin {
 
 		if (pathPosix.isAbsolute(file)) {
 			file = pathWin32.join(this.root, file);
-		} else if (rePathTilde.test(file)) {
+		} else if (/^\$\{HOME\}(?=\/|$)/.test(file)) {
 			file = pathWin32.join("%HOME%", rightPath(file));
 		} else {
 			file = pathWin32.normalize(file);
