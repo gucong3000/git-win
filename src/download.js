@@ -98,7 +98,6 @@ async function down (url, dist, asset) {
 				strictSSL: false,
 			});
 		} else {
-			// console.error(ex);
 			throw ex;
 		}
 	}
