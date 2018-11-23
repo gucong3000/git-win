@@ -4,11 +4,24 @@ const cp = require("child_process");
 const assert = require("assert");
 const path = require("path");
 const rePathSep = /[\\/]+/g;
-const etcPath = "%windir%\\System32\\drivers\\etc\\";
 const {
 	win32: pathWin32,
 	posix: pathPosix,
 } = path;
+const etcPath = pathWin32.join.bind(
+	pathWin32,
+	[
+		process.env.windir,
+		process.env.SystemRoot,
+		"C:/Windows",
+	].find(Boolean) + "/System32/drivers/etc"
+);
+const etcMount = [
+	["/etc/protocols", etcPath("protocol")],
+	["/etc/hosts", etcPath("hosts")],
+	["/etc/networks", etcPath("networks")],
+	["/etc/services", etcPath("services")],
+];
 
 function toPosix (strPath) {
 	return strPath.replace(rePathSep, "/");
@@ -44,23 +57,19 @@ class Cygwin {
 			mount = cp.spawnSync(file, spawnOpts).stdout;
 			return mount;
 		});
-		mount = (mount && mount.split(/\r?\n/g).map(fs => {
-			fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
-			if (!fs || fs[2] === "/") {
-				return;
-			}
-			if (/^[A-Z]:$/.test(fs[1]) && fs[2].endsWith("/" + fs[1][0].toLowerCase())) {
-				this.cygdrive = fs[2].slice(0, -2);
-				return;
-			}
-			return [fs[2], this.resolve(fs[1]) || fs[1]];
-		}).filter(Boolean)) || [];
-		mount.unshift(
-			["/etc/protocols", etcPath + "protocol"],
-			["/etc/hosts", etcPath + "hosts"],
-			["/etc/networks", etcPath + "networks"],
-			["/etc/services", etcPath + "services"]
-		);
+		mount = etcMount.concat(
+			mount && mount.split(/\r?\n/g).map(fs => {
+				fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
+				if (!fs || fs[2] === "/") {
+					return;
+				}
+				if (/^[A-Z]:$/.test(fs[1]) && fs[2].endsWith("/" + fs[1][0].toLowerCase())) {
+					this.cygdrive = fs[2].slice(0, -2);
+					return;
+				}
+				return [fs[2], this.resolve(fs[1]) || fs[1]];
+			})
+		).filter(Boolean);
 		this.mount = new Map(mount);
 	}
 
