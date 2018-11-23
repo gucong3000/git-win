@@ -38,7 +38,9 @@
   "keywords": [
     "git",
     "window",
-    "path"
+    "resolve",
+    "path",
+    "posix"
   ],
   "preferGlobal": true,
   "license": "MIT",
@@ -67,5 +69,5 @@
     "report-coverage": "codecov",
     "test": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "2.2.2"
+  "version": "2.2.3"
 }

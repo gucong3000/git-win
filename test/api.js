@@ -426,7 +426,7 @@ describe("gitWin.toPosix()", () => {
 
 describe("/etc/*", () => {
 	it("/etc/protocols", () => {
-		expect(gitWin.toWin32("/etc/protocols")).to.equal("%windir%\\System32\\drivers\\etc\\protocol");
+		expect(gitWin.toWin32("/etc/protocols")).to.equal(process.env.windir + "\\System32\\drivers\\etc\\protocol");
 	});
 	[
 		"hosts",
@@ -434,7 +434,7 @@ describe("/etc/*", () => {
 		"services",
 	].forEach(file => {
 		it("/etc/" + file, () => {
-			expect(gitWin.toWin32("/etc/" + file)).to.equal("%windir%\\System32\\drivers\\etc\\" + file);
+			expect(gitWin.toWin32("/etc/" + file)).to.equal(process.env.windir + "\\System32\\drivers\\etc\\" + file);
 		});
 	});
 
