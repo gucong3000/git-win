@@ -77,15 +77,26 @@ describe("download mock test", () => {
 				throw new Error(file);
 			}
 		},
-		"./spawn": async (curl, args) => {
-			if (curlError) {
-				throw curlError;
+		"./spawn": async (file, args) => {
+			switch (file) {
+				case "curl": {
+					if (curlError) {
+						throw curlError;
+					}
+					const output = args[args.indexOf("--output") + 1];
+					fsMock.dist = output;
+					fsMock.url = args[args.length - 1];
+					fsMock[fsMock.dist] = fsMock.url;
+					fsMock.curl = true;
+					return;
+				}
+				case "wslpath": {
+					return "/mnt/c/Users/%USER%/AppData/Local/Temp";
+				}
+				case "cmd.exe": {
+					return "TEMP=%LOCALAPPDATA%\\Temp";
+				}
 			}
-			const output = args[args.indexOf("--output") + 1];
-			fsMock.dist = output;
-			fsMock.url = args[args.length - 1];
-			fsMock[fsMock.dist] = fsMock.url;
-			fsMock.curl = true;
 		},
 		"nugget": (url, { target }, cb) => {
 			process.nextTick(() => {

@@ -81,7 +81,6 @@ function findGitDir (dirs) {
 }
 
 function pathResolve (strPath) {
-	/* istanbul ignore if */
 	if (!isWin32 && path.posix.isAbsolute(strPath)) {
 		try {
 			strPath = cp.spawnSync("wslpath", ["-w", strPath], {
@@ -144,7 +143,6 @@ function findFile (...args) {
 	const key = filePath;
 	if (!(key in hasFileCache)) {
 		try {
-			/* istanbul ignore if */
 			if (!isWin32) {
 				filePath = cp.spawnSync("wslpath", [filePath], {
 					encoding: "utf8",

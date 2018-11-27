@@ -65,9 +65,10 @@
     "install": "node lib/install.js",
     "build": "rm -rf lib *.tgz && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
-    "pretest": "sh -c \"eclint check $(git ls-files | tee /tmp/git-ls-files) && eslint $(cat /tmp/git-ls-files | grep \\.js$) && rm /tmp/git-ls-files\"",
+    "pretest": "eclint check $(git ls-files | tee /tmp/git-ls-files) && eslint $(cat /tmp/git-ls-files | grep \\.js$) && rm /tmp/git-ls-files",
     "report-coverage": "codecov",
-    "test": "nyc mocha --no-timeouts test/index.js"
+    "test": "npm run unit",
+    "unit": "nyc mocha --no-timeouts test/index.js"
   },
   "version": "2.2.4"
 }
