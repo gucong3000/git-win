@@ -72,6 +72,7 @@ async function down (url, dist, asset) {
 	try {
 		await spawn("curl", [
 			process.env.CI && "--silent",
+			"--fail",
 			"--insecure",
 			"--location",
 			"--remote-time",
