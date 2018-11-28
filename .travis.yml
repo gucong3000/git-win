@@ -1,0 +1,19 @@
+os:
+  - windows
+sudo: required
+git:
+  autocrlf: input
+language: node_js
+node_js:
+  - "lts"
+install:
+  - curl -L -o ubuntu-1804.zip https://aka.ms/wsl-ubuntu-1804
+  - powershell.exe -NoProfile -Command "Expand-Archive -Path ubuntu-1804.zip -DestinationPath Ubuntu"
+  - Ubuntu/ubuntu1804.exe install --root
+  - wsl curl -sL https://deb.nodesource.com/setup_10.x "|" sudo -E bash -
+  - wsl sudo apt-get install -y nodejs
+  - npm install --ignore-scripts
+script:
+  - wsl npm run unit
+after_success:
+  - npm run report-coverage

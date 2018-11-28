@@ -2,12 +2,11 @@
 const gitPath = require("./git-path");
 const cp = require("child_process");
 const assert = require("assert");
-const path = require("path");
+let path = require("path");
 const rePathSep = /[\\/]+/g;
-const {
-	win32: pathWin32,
-	posix: pathPosix,
-} = path;
+const pathWin32 = Object.assign({}, path.win32);
+const pathPosix = Object.assign({}, path.posix);
+path = path === path.win32 ? pathWin32 : pathPosix;
 const etcPath = pathWin32.join.bind(
 	pathWin32,
 	[

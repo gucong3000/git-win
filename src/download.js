@@ -9,7 +9,6 @@ let nugget;
 
 async function tmpPath (fileName) {
 	let tmpdir;
-	/* istanbul ignore if */
 	if (process.platform !== "win32") {
 		const stdout = await spawn(
 			"cmd.exe",
@@ -22,8 +21,8 @@ async function tmpPath (fileName) {
 			{
 				stdio: "pipe",
 			}
-		).catch(() => "");
-		tmpdir = /^TMP?=(.*)$/igm.exec(stdout)[1];
+		);
+		tmpdir = /^TE?MP=(.*)$/igm.exec(stdout)[1];
 		tmpdir = await spawn(
 			"wslpath",
 			[
@@ -72,6 +71,7 @@ async function down (url, dist, asset) {
 	try {
 		await spawn("curl", [
 			process.env.CI && "--silent",
+			"--fail",
 			"--insecure",
 			"--location",
 			"--remote-time",
