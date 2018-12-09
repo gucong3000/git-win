@@ -4,7 +4,7 @@
     "url": "https://github.com/gucong3000/git-win/issues"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5",
+    "@babel/runtime": "^7.2.0",
     "fs-extra": "^7.0.1",
     "got": "^9.3.2",
     "in-gfw": "^1.2.0",
@@ -12,16 +12,16 @@
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
-    "@babel/core": "^7.1.6",
-    "@babel/plugin-transform-runtime": "^7.1.0",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "codecov": "^3.1.0",
     "eclint": "^2.8.1",
-    "eslint": "^5.9.0",
+    "eslint": "^5.10.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
@@ -65,10 +65,13 @@
     "install": "node lib/install.js",
     "build": "rm -rf lib *.tgz && babel src --out-dir lib && cp src/*.json lib",
     "prepare": "npm run build",
-    "pretest": "eclint check $(git ls-files | tee /tmp/git-ls-files) && eslint $(cat /tmp/git-ls-files | grep \\.js$) && rm /tmp/git-ls-files",
+    "lint:eclint": "eclint check $(git ls-files | tee /tmp/git-files)",
+    "lint:eslint": "eslint $(grep \"\\.js$\" /tmp/git-files)",
+    "lint": "npm run lint:eclint && npm run lint:eslint",
+    "pretest": "env npm run lint --script-shell=/bin/sh",
     "report-coverage": "codecov",
     "test": "npm run unit",
     "unit": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "2.2.4"
+  "version": "2.2.5"
 }
