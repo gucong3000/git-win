@@ -20,7 +20,7 @@ function getGitDirByRegstry (arch) {
 		"HKLM\\SOFTWARE\\GitForWindows",
 	];
 
-	if (arch && osArch === "64") {
+	if (arch && osArch !== "32") {
 		args.push("/reg:" + arch);
 	}
 

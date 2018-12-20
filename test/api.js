@@ -424,6 +424,18 @@ describe("gitWin.toPosix()", () => {
 	});
 });
 
+describe("gitWin.constructor", () => {
+	const cygWinPath = "C:/cygwin" + (require("../src/os-arch") === "64" ? "64" : "");
+	it(cygWinPath, async () => {
+		const cygwin = new gitWin.constructor(cygWinPath);
+		if (await fs.exists(cygwin.root)) {
+			expect(cygwin.mount).to.have.property("/usr/bin", "/bin");
+		} else {
+			expect(cygwin.mount).to.have.not.property("/usr/bin");
+		}
+	});
+});
+
 describe("/etc/*", () => {
 	const windir = process.env.windir || "C:\\Windows";
 	it("/etc/protocols", () => {

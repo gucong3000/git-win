@@ -15,12 +15,12 @@ const etcPath = pathWin32.join.bind(
 		"C:/Windows",
 	].find(Boolean) + "/System32/drivers/etc"
 );
-const etcMount = [
-	["/etc/protocols", etcPath("protocol")],
-	["/etc/hosts", etcPath("hosts")],
-	["/etc/networks", etcPath("networks")],
-	["/etc/services", etcPath("services")],
-];
+const etcMount = {
+	"/etc/protocols": etcPath("protocol"),
+	"/etc/hosts": etcPath("hosts"),
+	"/etc/networks": etcPath("networks"),
+	"/etc/services": etcPath("services"),
+};
 
 function toPosix (strPath) {
 	return strPath.replace(rePathSep, "/");
@@ -47,17 +47,18 @@ class Cygwin {
 			encoding: "utf8",
 		};
 
-		let mount;
+		const mount = Object.assign({}, etcMount);
+
 		[
 			"usr/bin/mount",
 			"bin/mount",
 		].find(file => {
 			file = gitPath.findFile(root, file + ".exe") || file;
-			mount = cp.spawnSync(file, spawnOpts).stdout;
-			return mount;
-		});
-		mount = etcMount.concat(
-			mount && mount.split(/\r?\n/g).map(fs => {
+			const stdout = cp.spawnSync(file, spawnOpts).stdout;
+			if (!stdout) {
+				return;
+			}
+			stdout.split(/\r?\n/g).map(fs => {
 				fs = /^(.+?)\s+on\s+(.+?)\s+type/.exec(fs);
 				if (!fs || fs[2] === "/") {
 					return;
@@ -66,10 +67,12 @@ class Cygwin {
 					this.cygdrive = fs[2].slice(0, -2);
 					return;
 				}
-				return [fs[2], this.resolve(fs[1]) || fs[1]];
-			})
-		).filter(Boolean);
-		this.mount = new Map(mount);
+				mount[fs[2]] = this.resolve(fs[1]) || fs[1];
+			});
+			return stdout;
+		});
+
+		this.mount = mount;
 	}
 
 	get mingw () {
@@ -135,7 +138,8 @@ class Cygwin {
 			return file;
 		}
 
-		for (const [prefix, path] of this.mount) {
+		for (const prefix in this.mount) {
+			const path = this.mount[prefix];
 			if (file.startsWith(prefix)) {
 				if (file.length === prefix.length) {
 					file = path;

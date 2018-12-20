@@ -6,16 +6,16 @@
   "dependencies": {
     "@babel/runtime": "^7.2.0",
     "fs-extra": "^7.0.1",
-    "got": "^9.3.2",
+    "got": "^9.5.0",
     "in-gfw": "^1.2.0",
     "nugget": "^2.0.1"
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
-    "@babel/cli": "^7.2.0",
-    "@babel/core": "^7.2.0",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
     "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
@@ -73,5 +73,5 @@
     "test": "npm run unit",
     "unit": "nyc mocha --no-timeouts test/index.js"
   },
-  "version": "2.2.5"
+  "version": "2.3.0"
 }
