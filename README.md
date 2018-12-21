@@ -6,7 +6,7 @@ git-win
 [![codecov](https://img.shields.io/codecov/c/github/gucong3000/git-win.svg)](https://codecov.io/gh/gucong3000/git-win)
 [![David](https://img.shields.io/david/gucong3000/git-win.svg)](https://david-dm.org/gucong3000/git-win)
 
-Install [Git for Windows](https://git-scm.com/download/win) by npm.
+Install [Git for Windows](https://gitforwindows.org/) by npm.
 
 ## Why
 
@@ -16,13 +16,13 @@ Install [Git for Windows](https://git-scm.com/download/win) by npm.
 
 ## Install
 
-Install [Git for Windows](https://git-scm.com/download/win) from mirror
+Install [Git for Windows](https://gitforwindows.org/) from mirror
 
 ```bash
 npm i -g git-win --git4win_mirror=https://npm.taobao.org/mirrors/git-for-windows
 ```
 
-Install [Git for Windows](https://git-scm.com/download/win) for specify version whith [flags to use by calling the installer](https://github.com/git-for-windows/git/wiki/Silent-or-Unattended-Installation)
+Install [Git for Windows](https://gitforwindows.org/) for specify version whith [flags to use by calling the installer](https://github.com/git-for-windows/git/wiki/Silent-or-Unattended-Installation)
 
 ```bash
 npm i -g git-win --git-version=2.19 -- /COMPONENTS="icons,icons\\quicklaunch,ext,ext\\shellhere,ext\\guihere,assoc,assoc_sh"
