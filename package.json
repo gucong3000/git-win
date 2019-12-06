@@ -4,7 +4,7 @@
     "url": "https://github.com/gucong3000/git-win/issues"
   },
   "dependencies": {
-    "@babel/runtime": "^7.2.0",
+    "@babel/runtime": "^7.7.5",
     "fs-extra": "^7.0.1",
     "got": "^9.5.0",
     "in-gfw": "^1.2.0",
