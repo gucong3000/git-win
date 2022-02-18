@@ -8,7 +8,7 @@
     "fs-extra": "^7.0.1",
     "got": "^9.5.0",
     "in-gfw": "^1.2.0",
-    "nugget": "^2.0.1"
+    "nugget": "^2.0.2"
   },
   "description": "Install Git for Windows by npm.",
   "devDependencies": {
